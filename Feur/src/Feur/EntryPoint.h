@@ -5,7 +5,12 @@
 extern Feur::Application* Feur::CreateApplication();
 
 int main(int args, char** argv) {
-	printf("Feur engine starting!");
+
+	Feur::Log::Init();
+	F_CORE_WARN("Initialized Log!");
+	int a = 5;
+	F_INFO("Hello! Var={0}", a);
+
 	auto app = Feur::CreateApplication();
 	app->Run();
 
