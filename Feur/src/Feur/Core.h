@@ -9,3 +9,5 @@
 #else
 	#error Feur only supports Windows!
 #endif // F_PLATFORM_WINDOWS
+
+#define BIT(x) (1 << x)

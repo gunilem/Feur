@@ -1,42 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Feur">
+      <UniqueIdentifier>{372F857C-2366-860D-CC52-6C10B868020F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Fichiers de ressources">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Feur\Events">
+      <UniqueIdentifier>{3BB79438-A76C-0D2E-3061-07059C150432}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Feur\Core.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
+    <ClInclude Include="src\Feur.h" />
     <ClInclude Include="src\Feur\Application.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Feur</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="src\Feur\Core.h">
+      <Filter>Feur</Filter>
     </ClInclude>
     <ClInclude Include="src\Feur\EntryPoint.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Feur</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Events\ApplicationEvent.h">
+      <Filter>Feur\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Events\Event.h">
+      <Filter>Feur\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Events\KeyEvent.h">
+      <Filter>Feur\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Events\MouseEvent.h">
+      <Filter>Feur\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Feur\Log.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Feur</Filter>
     </ClInclude>
+    <ClInclude Include="src\fpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Feur\Application.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Feur</Filter>
     </ClCompile>
     <ClCompile Include="src\Feur\Log.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Feur</Filter>
     </ClCompile>
+    <ClCompile Include="src\fpch.cpp" />
   </ItemGroup>
 </Project>
