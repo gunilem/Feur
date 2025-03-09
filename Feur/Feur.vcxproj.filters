@@ -7,6 +7,12 @@
     <Filter Include="Feur\Events">
       <UniqueIdentifier>{3BB79438-A76C-0D2E-3061-07059C150432}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Feur.h" />
@@ -31,8 +37,20 @@
     <ClInclude Include="src\Feur\Events\MouseEvent.h">
       <Filter>Feur\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Feur\Layer.h">
+      <Filter>Feur</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\LayerStack.h">
+      <Filter>Feur</Filter>
+    </ClInclude>
     <ClInclude Include="src\Feur\Log.h">
       <Filter>Feur</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Window.h">
+      <Filter>Feur</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\fpch.h" />
   </ItemGroup>
@@ -40,8 +58,17 @@
     <ClCompile Include="src\Feur\Application.cpp">
       <Filter>Feur</Filter>
     </ClCompile>
+    <ClCompile Include="src\Feur\Layer.cpp">
+      <Filter>Feur</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\LayerStack.cpp">
+      <Filter>Feur</Filter>
+    </ClCompile>
     <ClCompile Include="src\Feur\Log.cpp">
       <Filter>Feur</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\fpch.cpp" />
   </ItemGroup>

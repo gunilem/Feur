@@ -1,7 +1,12 @@
 #pragma once
 
 #include "Core.h"
-#include "Events/Event.h"
+
+#include "Window.h"
+#include "Feur/LayerStack.h"
+#include "Feur/Events/Event.h"
+#include "Feur/Events/ApplicationEvent.h"
+
 
 namespace Feur {
 
@@ -12,6 +17,18 @@ namespace Feur {
 		virtual ~Application();
 
 		void Run();
+
+		void OnEvent(Event& e);
+
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
+
+	private:
+		bool OnWindowClose(WindowCloseEvent e);
+
+		std::unique_ptr<Window> m_Window;
+		bool m_Running = true;
+		LayerStack m_layerStack;
 	};
 
 	// To be defined in the client

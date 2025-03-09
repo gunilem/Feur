@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "Feur/Log.h"
+
 
 
 #if F_PLATFORM_WINDOWS

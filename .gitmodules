@@ -1,3 +1,6 @@
 [submodule "Feur/vendor/spdlog"]
 	path = Feur/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Feur/vendor/GLFW"]
+	path = Feur/vendor/GLFW
+	url = https://github.com/glfw/glfw

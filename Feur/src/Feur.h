@@ -2,8 +2,8 @@
 
 // For use by Feur applications
 
-#include <stdio.h>
 #include "Feur/Application.h"
+#include "Feur/Layer.h"
 #include "Feur/Log.h"
 
 //----EntryPoint--------------

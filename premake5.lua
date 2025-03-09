@@ -9,6 +9,11 @@ workspace "Feur"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Feur/vendor/GLFW/include"
+
+include "Feur/vendor/GLFW"
+
 project "Feur"
     location "Feur"
     kind "SharedLib"
@@ -27,7 +32,13 @@ project "Feur"
 
     includedirs{
         "%{prj.name}/src",
-        "%{prj.name}/vendor/spdlog/include"
+        "%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.GLFW}"
+    }
+
+    links{
+        "GLFW",
+        "opengl32.lib"
     }
 
     filter "system:windows"
@@ -48,19 +59,19 @@ project "Feur"
     filter "configurations:Debug"
         defines "F_DEBUG"
         symbols "On"
-        buildoptions "/utf-8"
+        buildoptions { "/utf-8", "/MDd"}
 
         
     filter "configurations:Release"
         defines "F_RELEASE"
         optimize "On"
-        buildoptions "/utf-8"
+        buildoptions { "/utf-8", "/MD"}
 
     
     filter "configurations:Dist"
         defines "F_DIST"
         optimize "On"
-        buildoptions "/utf-8"
+        buildoptions { "/utf-8", "/MD"}
 
 
 project "Sandbox"
@@ -98,16 +109,16 @@ project "Sandbox"
     filter "configurations:Debug"
         defines "F_DEBUG"
         symbols "On"
-        buildoptions "/utf-8"
+        buildoptions { "/utf-8", "/MDd"}
 
         
     filter "configurations:Release"
         defines "F_RELEASE"
         optimize "On"
-        buildoptions "/utf-8"
+        buildoptions { "/utf-8", "/MD"}
 
     
     filter "configurations:Dist"
         defines "F_DIST"
         optimize "On"
-        buildoptions "/utf-8"
+        buildoptions { "/utf-8", "/MD"}
