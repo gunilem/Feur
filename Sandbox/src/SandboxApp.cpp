@@ -18,6 +18,7 @@ class Sandbox : public Feur::Application {
 public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Feur::ImGuiLayer());
 	}
 
 	~Sandbox() {

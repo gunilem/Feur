@@ -7,8 +7,14 @@
     <Filter Include="Feur\Events">
       <UniqueIdentifier>{3BB79438-A76C-0D2E-3061-07059C150432}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Feur\Imgui">
+      <UniqueIdentifier>{C17938FA-AD31-7A47-1639-53A302101538}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Platform">
       <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Platform\Windows">
       <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
@@ -37,6 +43,9 @@
     <ClInclude Include="src\Feur\Events\MouseEvent.h">
       <Filter>Feur\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Feur\Imgui\ImGuiLayer.h">
+      <Filter>Feur\Imgui</Filter>
+    </ClInclude>
     <ClInclude Include="src\Feur\Layer.h">
       <Filter>Feur</Filter>
     </ClInclude>
@@ -49,6 +58,9 @@
     <ClInclude Include="src\Feur\Window.h">
       <Filter>Feur</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
     </ClInclude>
@@ -58,6 +70,9 @@
     <ClCompile Include="src\Feur\Application.cpp">
       <Filter>Feur</Filter>
     </ClCompile>
+    <ClCompile Include="src\Feur\Imgui\ImGuiLayer.cpp">
+      <Filter>Feur\Imgui</Filter>
+    </ClCompile>
     <ClCompile Include="src\Feur\Layer.cpp">
       <Filter>Feur</Filter>
     </ClCompile>
@@ -66,6 +81,9 @@
     </ClCompile>
     <ClCompile Include="src\Feur\Log.cpp">
       <Filter>Feur</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>Platform\Windows</Filter>

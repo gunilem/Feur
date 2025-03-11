@@ -4,3 +4,6 @@
 [submodule "Feur/vendor/GLFW"]
 	path = Feur/vendor/GLFW
 	url = https://github.com/glfw/glfw
+[submodule "Feur/vendor/imgui"]
+	path = Feur/vendor/imgui
+	url = https://github.com/ocornut/imgui

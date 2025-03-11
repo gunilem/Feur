@@ -5,9 +5,12 @@
 
 namespace Feur {
 
-#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+	Application* Application::s_Instance = nullptr;
 
 	Application::Application() {
+		F_CORE_ASSERT(!s_Instance, "There should be one Application!")
+		s_Instance = this;
+
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 	}
@@ -19,10 +22,12 @@ namespace Feur {
 
 	void Application::PushLayer(Layer* layer) {
 		m_layerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay) {
 		m_layerStack.PushOverlay(overlay);
+		overlay->OnAttach();
 	}
 
 
