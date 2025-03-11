@@ -5,6 +5,9 @@
 #include "Feur/Events/KeyEvent.h"
 #include "Feur/Events/ApplicationEvent.h"
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 namespace Feur {
 
 	static bool s_GLFWInitialized = false;
@@ -44,6 +47,8 @@ namespace Feur {
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		F_CORE_ASSERT(status, "Failed to Initialize Glad!");
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
