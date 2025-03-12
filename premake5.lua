@@ -22,6 +22,7 @@ project "Feur"
     location "Feur"
     kind "SharedLib"
     language "C++"
+    staticruntime "off"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -51,7 +52,6 @@ project "Feur"
 
     filter "system:windows"
         cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
         buildoptions "/utf-8"
 
@@ -67,25 +67,29 @@ project "Feur"
     filter "configurations:Debug"
         defines "F_DEBUG"
         symbols "On"
-        buildoptions { "/utf-8", "/MDd"}
+        runtime "Debug"
+        buildoptions "/utf-8"
 
         
     filter "configurations:Release"
         defines "F_RELEASE"
         optimize "On"
-        buildoptions { "/utf-8", "/MD"}
+        runtime "Release"
+        buildoptions "/utf-8"
 
     
     filter "configurations:Dist"
         defines "F_DIST"
         optimize "On"
-        buildoptions { "/utf-8", "/MD"}
+        runtime "Release"
+        buildoptions "/utf-8"
 
 
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
+    staticruntime "off"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -106,7 +110,6 @@ project "Sandbox"
 
     filter "system:windows"
         cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
         buildoptions "/utf-8"
 
@@ -117,16 +120,19 @@ project "Sandbox"
     filter "configurations:Debug"
         defines "F_DEBUG"
         symbols "On"
-        buildoptions { "/utf-8", "/MDd"}
+        runtime "Debug"
+        buildoptions "/utf-8"
 
         
     filter "configurations:Release"
         defines "F_RELEASE"
         optimize "On"
-        buildoptions { "/utf-8", "/MD"}
+        runtime "Release"
+        buildoptions "/utf-8"
 
     
     filter "configurations:Dist"
         defines "F_DIST"
         optimize "On"
-        buildoptions { "/utf-8", "/MD"}
+        runtime "Release"
+        buildoptions "/utf-8"
