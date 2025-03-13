@@ -1,3 +1,5 @@
+/// precompile Headers
+/// These headers are not recompiled each build
 #pragma once
 
 #include <iostream>

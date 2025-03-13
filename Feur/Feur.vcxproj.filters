@@ -46,6 +46,12 @@
     <ClInclude Include="src\Feur\Imgui\ImGuiLayer.h">
       <Filter>Feur\Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="src\Feur\Input.h">
+      <Filter>Feur</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\KeyCodes.h">
+      <Filter>Feur</Filter>
+    </ClInclude>
     <ClInclude Include="src\Feur\Layer.h">
       <Filter>Feur</Filter>
     </ClInclude>
@@ -55,18 +61,22 @@
     <ClInclude Include="src\Feur\Log.h">
       <Filter>Feur</Filter>
     </ClInclude>
+    <ClInclude Include="src\Feur\MousebuttonCodes.h">
+      <Filter>Feur</Filter>
+    </ClInclude>
     <ClInclude Include="src\Feur\Window.h">
       <Filter>Feur</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
       <Filter>Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\fpch.h" />
-    <ClInclude Include="src\Feur\Input.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Feur\Application.cpp">
@@ -87,10 +97,12 @@
     <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
       <Filter>Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\fpch.cpp" />
-    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>
