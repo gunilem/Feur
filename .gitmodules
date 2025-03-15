@@ -7,3 +7,6 @@
 [submodule "Feur/vendor/imgui"]
 	path = Feur/vendor/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "Feur/vendor/glm"]
+	path = Feur/vendor/glm
+	url = https://github.com/g-truc/glm
