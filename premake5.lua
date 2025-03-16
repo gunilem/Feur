@@ -106,11 +106,12 @@ project "Sandbox"
     includedirs{
         "Feur/vendor/spdlog/include",
         "Feur/src",
+        "Feur/vendor",
         "%{IncludeDir.glm}",
     }
 
     links{
-        "Feur"
+        "Feur",
     }
 
     filter "system:windows"

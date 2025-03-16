@@ -8,6 +8,9 @@
 #include "Feur/Events/ApplicationEvent.h"
 
 
+#include "Feur/ImGui/ImGuiLayer.h"
+
+
 namespace Feur {
 
 	class FEUR_API Application
@@ -30,6 +33,7 @@ namespace Feur {
 		bool OnWindowClose(WindowCloseEvent e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_layerStack;
 

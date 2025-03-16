@@ -171,7 +171,6 @@
     <ClInclude Include="src\Feur\Log.h" />
     <ClInclude Include="src\Feur\MousebuttonCodes.h" />
     <ClInclude Include="src\Feur\Window.h" />
-    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\fpch.h" />
@@ -596,11 +595,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Feur\Application.cpp" />
+    <ClCompile Include="src\Feur\Imgui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Feur\Imgui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Feur\Layer.cpp" />
     <ClCompile Include="src\Feur\LayerStack.cpp" />
     <ClCompile Include="src\Feur\Log.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\fpch.cpp">
