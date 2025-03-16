@@ -4,7 +4,6 @@
 namespace Feur {
 
 	LayerStack::LayerStack() {
-		m_Layers.begin();
 	}
 
 	LayerStack::~LayerStack() {

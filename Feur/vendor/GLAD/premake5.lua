@@ -1,6 +1,7 @@
 project "GLAD"
     kind "StaticLib"
     language "C"
+    staticruntime "On"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -11,18 +12,17 @@ project "GLAD"
         "src/glad.c",
     }
 
-	includedirs {
-		"include"
-	}
+    includedirs {
+        "include"
+    }
 
     filter "system:windows"
         systemversion "latest"
-        staticruntime "On"
 
     filter "configurations:Debug"
-		runtime "Debug"
-		symbols "on"
+        runtime "Debug"
+        symbols "on"
 
-	filter "configurations:Release"
-		runtime "Release"
-		optimize "on"
+    filter "configurations:Release"
+        runtime "Release"
+        optimize "on"

@@ -21,9 +21,14 @@ include "Feur/vendor/imgui"
 
 project "Feur"
     location "Feur"
-    kind "SharedLib"
+    kind "StaticLib"
+
     language "C++"
-    staticruntime "off"
+    cppdialect "C++17"
+
+    buildoptions "/utf-8"
+    staticruntime "on"
+
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -54,46 +59,45 @@ project "Feur"
         "opengl32.lib"
     }
 
+    defines {
+        "_CRT_SECURE_NO_WARNINGS"
+    }
+
     filter "system:windows"
-        cppdialect "C++17"
         systemversion "latest"
-        buildoptions "/utf-8"
 
         defines{
             "F_PLATFORM_WINDOWS",
             "F_BUILD_DLL"
         }
 
-        postbuildcommands{
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-        }
-
     filter "configurations:Debug"
         defines "F_DEBUG"
-        symbols "On"
         runtime "Debug"
-        buildoptions "/utf-8"
+        symbols "on"
 
         
     filter "configurations:Release"
         defines "F_RELEASE"
-        optimize "On"
         runtime "Release"
-        buildoptions "/utf-8"
+        optimize "on"
 
     
     filter "configurations:Dist"
         defines "F_DIST"
-        optimize "On"
         runtime "Release"
-        buildoptions "/utf-8"
+        optimize "on"
 
 
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
+
     language "C++"
-    staticruntime "off"
+    cppdialect "C++17"
+
+    buildoptions "/utf-8"
+    staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -115,9 +119,7 @@ project "Sandbox"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
         systemversion "latest"
-        buildoptions "/utf-8"
 
         defines{
             "F_PLATFORM_WINDOWS"
@@ -125,20 +127,17 @@ project "Sandbox"
 
     filter "configurations:Debug"
         defines "F_DEBUG"
-        symbols "On"
         runtime "Debug"
-        buildoptions "/utf-8"
+        symbols "on"
 
         
     filter "configurations:Release"
         defines "F_RELEASE"
-        optimize "On"
         runtime "Release"
-        buildoptions "/utf-8"
+        optimize "on"
 
     
     filter "configurations:Dist"
         defines "F_DIST"
-        optimize "On"
         runtime "Release"
-        buildoptions "/utf-8"
+        optimize "on"
