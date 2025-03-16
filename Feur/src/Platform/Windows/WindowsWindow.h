@@ -2,6 +2,8 @@
 
 #include "Feur/Window.h"
 
+#include "Feur/Renderer/GraphicsContext.h"
+
 struct GLFWwindow;
 
 namespace Feur {
@@ -30,6 +32,7 @@ namespace Feur {
 
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData {
 			std::string Title;

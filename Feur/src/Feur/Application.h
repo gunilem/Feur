@@ -10,6 +10,7 @@
 
 #include "Feur/ImGui/ImGuiLayer.h"
 
+#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Feur {
 
@@ -36,6 +37,10 @@ namespace Feur {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_layerStack;
+
+		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::unique_ptr<OpenGLShader> m_Shader;
+
 
 	private:
 		static Application* s_Instance;
