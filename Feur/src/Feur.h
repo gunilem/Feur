@@ -10,6 +10,10 @@
 #include "Feur/KeyCodes.h"
 #include "Feur/MousebuttonCodes.h"
 
+#include "Feur/Renderer/Renderer.h"
+#include "Feur/Renderer/Shader.h"
+#include "Feur/Renderer/VertexArray.h"
+
 #include "Feur/Imgui/ImGuiLayer.h"
 
 //----EntryPoint--------------

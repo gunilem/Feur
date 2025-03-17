@@ -93,13 +93,43 @@
     <ClInclude Include="src\Feur\MousebuttonCodes.h">
       <Filter>src\Feur</Filter>
     </ClInclude>
+    <ClInclude Include="src\Feur\Renderer\Buffer.h">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Feur\Renderer\GraphicsContext.h">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Renderer\RenderCommand.h">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Renderer\Renderer.h">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Renderer\RendererAPI.h">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Renderer\Shader.h">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Renderer\VertexArray.h">
       <Filter>src\Feur\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Feur\Window.h">
       <Filter>src\Feur</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
@@ -1385,7 +1415,37 @@
     <ClCompile Include="src\Feur\Log.cpp">
       <Filter>src\Feur</Filter>
     </ClCompile>
+    <ClCompile Include="src\Feur\Renderer\Buffer.cpp">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Renderer\RenderCommand.cpp">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Renderer\Renderer.cpp">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Renderer\RendererAPI.cpp">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Renderer\Shader.cpp">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Renderer\VertexArray.cpp">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">

@@ -1,16 +1,16 @@
 #pragma once
 
-#include <string>
+#include "Feur/Renderer/Shader.h"
 
 namespace Feur {
 
-	class OpenGLShader {
+	class OpenGLShader : public Shader {
 	public:
 		OpenGLShader(std::string& vertexSrc, std::string& fragsrc);
-		~OpenGLShader();
+		virtual ~OpenGLShader() override;
 
-		void Bind() const;
-		void Unbind() const;
+		void Bind() const override;
+		void Unbind() const override;
 
 	private:
 		uint32_t m_RendererID;
