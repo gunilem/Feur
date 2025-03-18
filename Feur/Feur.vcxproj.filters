@@ -16,6 +16,9 @@
     <Filter Include="src\Feur\Renderer">
       <UniqueIdentifier>{14F6CF1E-800C-CEB4-C983-59D635D99E3C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Feur\Renderer\Camera">
+      <UniqueIdentifier>{0C6CF7FC-F890-467D-21DC-2B0D0D60459B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -95,6 +98,15 @@
     </ClInclude>
     <ClInclude Include="src\Feur\Renderer\Buffer.h">
       <Filter>src\Feur\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Renderer\Camera\Camera.h">
+      <Filter>src\Feur\Renderer\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Renderer\Camera\OrthographicCamera.h">
+      <Filter>src\Feur\Renderer\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Renderer\Camera\PerspectiveCamera.h">
+      <Filter>src\Feur\Renderer\Camera</Filter>
     </ClInclude>
     <ClInclude Include="src\Feur\Renderer\GraphicsContext.h">
       <Filter>src\Feur\Renderer</Filter>
@@ -1417,6 +1429,15 @@
     </ClCompile>
     <ClCompile Include="src\Feur\Renderer\Buffer.cpp">
       <Filter>src\Feur\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Renderer\Camera\Camera.cpp">
+      <Filter>src\Feur\Renderer\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Renderer\Camera\OrthographicCamera.cpp">
+      <Filter>src\Feur\Renderer\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Renderer\Camera\PerspectiveCamera.cpp">
+      <Filter>src\Feur\Renderer\Camera</Filter>
     </ClCompile>
     <ClCompile Include="src\Feur\Renderer\RenderCommand.cpp">
       <Filter>src\Feur\Renderer</Filter>

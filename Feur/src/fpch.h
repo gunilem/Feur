@@ -17,7 +17,6 @@
 #include "Feur/Log.h"
 
 
-
 #if F_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

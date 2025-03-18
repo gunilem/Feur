@@ -162,6 +162,9 @@
     <ClInclude Include="src\Feur\Log.h" />
     <ClInclude Include="src\Feur\MousebuttonCodes.h" />
     <ClInclude Include="src\Feur\Renderer\Buffer.h" />
+    <ClInclude Include="src\Feur\Renderer\Camera\Camera.h" />
+    <ClInclude Include="src\Feur\Renderer\Camera\OrthographicCamera.h" />
+    <ClInclude Include="src\Feur\Renderer\Camera\PerspectiveCamera.h" />
     <ClInclude Include="src\Feur\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Feur\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Feur\Renderer\Renderer.h" />
@@ -604,6 +607,9 @@
     <ClCompile Include="src\Feur\LayerStack.cpp" />
     <ClCompile Include="src\Feur\Log.cpp" />
     <ClCompile Include="src\Feur\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Feur\Renderer\Camera\Camera.cpp" />
+    <ClCompile Include="src\Feur\Renderer\Camera\OrthographicCamera.cpp" />
+    <ClCompile Include="src\Feur\Renderer\Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="src\Feur\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Feur\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Feur\Renderer\RendererAPI.cpp" />
