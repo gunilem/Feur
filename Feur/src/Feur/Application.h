@@ -2,6 +2,8 @@
 
 #include "Core.h"
 
+#include "Core/Timestep.h"
+
 #include "Window.h"
 #include "Feur/LayerStack.h"
 #include "Feur/Events/Event.h"
@@ -10,10 +12,6 @@
 
 #include "Feur/ImGui/ImGuiLayer.h"
 
-#include "Feur/Renderer/Buffer.h"
-#include "Feur/Renderer/Shader.h"
-#include "Feur/Renderer/VertexArray.h"
-
 
 namespace Feur {
 
@@ -21,7 +19,7 @@ namespace Feur {
 	{
 	public:
 		Application();
-		virtual ~Application();
+		virtual ~Application(); 
 
 		void Run();
 
@@ -40,6 +38,9 @@ namespace Feur {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_layerStack;
+
+		Time m_Time;
+
 	private:
 		static Application* s_Instance;
 	};
