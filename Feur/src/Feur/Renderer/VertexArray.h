@@ -12,13 +12,13 @@ namespace Feur {
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
-		virtual void AddVertexbuffer(const std::shared_ptr<VertexBuffer>& buffer) = 0;
-		virtual void SetIndexbuffer(const std::shared_ptr<IndexBuffer>& buffer) = 0;
+		virtual void AddVertexbuffer(const Ref<VertexBuffer>& buffer) = 0;
+		virtual void SetIndexbuffer(const Ref<IndexBuffer>& buffer) = 0;
 
-		virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexbuffers() const = 0;
-		virtual const std::shared_ptr<IndexBuffer> GetIndexbuffer() const = 0;
+		virtual const std::vector<Ref<VertexBuffer>>& GetVertexbuffers() const = 0;
+		virtual const Ref<IndexBuffer> GetIndexbuffer() const = 0;
 
-		static VertexArray* Create();
+		static Ref<VertexArray> Create();
 	};
 
 }

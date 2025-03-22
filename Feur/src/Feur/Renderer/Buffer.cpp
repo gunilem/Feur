@@ -29,24 +29,24 @@ namespace Feur {
 
 
 
-	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 	{
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: F_CORE_ASSERT(false, "RendererAPI VertexBuffer: None Renderer API currently not supported!") return nullptr;
-			case RendererAPI::API::OpenGL3: return new OpenGLVertexBuffer(vertices, size);
+			case RendererAPI::API::OpenGL3: return std::make_shared<OpenGLVertexBuffer>(vertices, size);
 		}
 
 		F_CORE_ASSERT(false, "RendererAPI: Unknown renderer API")
 		return nullptr;
 	}
 
-	IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None: F_CORE_ASSERT(false, "RendererAPI IndexBuffer: None Renderer API currently not supported!") return nullptr;
-		case RendererAPI::API::OpenGL3: return new OpenGLIndexBuffer(indices, count);
+		case RendererAPI::API::OpenGL3: return std::make_shared<OpenGLIndexBuffer>(indices, count);
 		}
 
 		F_CORE_ASSERT(false, "RendererAPI: Unknown renderer API")

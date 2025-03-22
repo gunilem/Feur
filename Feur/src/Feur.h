@@ -25,10 +25,11 @@
 
 #include "Feur/Renderer/Buffer.h"
 #include "Feur/Renderer/Shader.h"
+#include "Feur/Renderer/Texture.h"
 #include "Feur/Renderer/VertexArray.h"
 
-#include "Feur/Renderer/Camera/Camera.h"
-#include "Feur/Renderer/Camera/OrthographicCamera.h"
+#include "Feur/Renderer/Camera/Controllers/OrthographicCameraController.h"
+
 //--------------------------------
 
 #include "Feur/Imgui/ImGuiLayer.h"

@@ -1,7 +1,7 @@
 #include "fpch.h"
 #include "Application.h"
 
-#include "Input.h"
+#include "Renderer/Renderer.h"
 
 namespace Feur {
 
@@ -14,6 +14,8 @@ namespace Feur {
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 		m_Window->SetVSync(true);
+
+		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -41,6 +43,7 @@ namespace Feur {
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto it = m_layerStack.end(); it != m_layerStack.begin();) {
 			(*--it)->OnEvent(e);
@@ -57,8 +60,10 @@ namespace Feur {
 
 			m_Time.UpdateDeltaTime();
 
-			for (Layer* layer : m_layerStack) {
-				layer->OnUpdate();
+			if (!m_Minimized) {
+				for (Layer* layer : m_layerStack) {
+					layer->OnUpdate();
+				}
 			}
 
 			m_ImGuiLayer->Begin();
@@ -74,5 +79,17 @@ namespace Feur {
 	bool Application::OnWindowClose(WindowCloseEvent e) {
 		m_Running = false;
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent e) {
+		if (e.GetWidth() == 0 || e.GetHeight() == 0) {
+			m_Minimized = true;
+			return false;
+		}
+
+		m_Minimized = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 };

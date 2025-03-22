@@ -14,6 +14,7 @@ IncludeDir["GLFW"] = "Feur/vendor/GLFW/include"
 IncludeDir["GLAD"] = "Feur/vendor/GLAD/include"
 IncludeDir["Imgui"] = "Feur/vendor/imgui"
 IncludeDir["glm"] = "Feur/vendor/glm"
+IncludeDir["stb_image"] = "Feur/vendor/stb_image"
 
 include "Feur/vendor/GLFW"
 include "Feur/vendor/GLAD"
@@ -41,6 +42,8 @@ project "Feur"
         "%{prj.name}/src/**.cpp",
         "%{prj.name}/vendor/glm/glm/**.hpp",
         "%{prj.name}/vendor/glm/glm/**.inl",
+        "%{prj.name}/vendor/stb_image/**.cpp",
+        "%{prj.name}/vendor/stb_image/**.h",
     }
 
     includedirs{
@@ -50,6 +53,7 @@ project "Feur"
         "%{IncludeDir.GLAD}",
         "%{IncludeDir.Imgui}",
         "%{IncludeDir.glm}",
+        "%{IncludeDir.stb_image}",
     }
 
     links{

@@ -31,28 +31,23 @@ namespace Sandbox {
 
 		virtual void OnImGuiRender() override;
 
-		void MoveCamera();
-		void RotateCamera();
-
 		void OnEvent(Event& event) override;
 
 	private:
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_vertexArray;
+		ShaderLibrary m_ShaderLibrary;
+		Ref<VertexArray> m_vertexArray;
+		Ref<VertexArray> m_SquareVertexArray;
+		Ref<Texture2D> m_Texture;
 
-		std::shared_ptr<VertexArray> m_SquareVertexArray;
-		Camera m_Camera;
-
-		glm::vec3 m_CameraPosition{0.0f};
-		float m_CameraMoveSpeed{ 2.0f };
-
-		float m_CameraRotation{ 0.0f };
-		float m_CameraRotationSpeed{ 75.0f };
+		OrthographicCameraController m_CameraController;
 
 		DataInfo m_DataWindow;
 		float m_lastDataRefresh;
 
 		glm::mat4 m_SquareMat{ 1.0f };
+		glm::vec3 m_SquareColor{ 1.0f, 0.0f, 0.0f};
+
+		
 	};
 
 

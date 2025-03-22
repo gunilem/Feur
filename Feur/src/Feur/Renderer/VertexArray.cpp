@@ -6,12 +6,12 @@
 
 namespace Feur {
 
-	VertexArray* VertexArray::Create() {
+	Ref<VertexArray> VertexArray::Create() {
 
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: F_CORE_ASSERT(false, "RendererAPI VertexBuffer: None Renderer API currently not supported!") return nullptr;
-			case RendererAPI::API::OpenGL3: return new OpenGLVertexArray();
+			case RendererAPI::API::OpenGL3: return std::make_shared<OpenGLVertexArray>();
 		}
 
 		F_CORE_ASSERT(false, "RendererAPI: Unknown renderer API")

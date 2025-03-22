@@ -19,4 +19,8 @@
   <ItemGroup>
     <ClInclude Include="src\SandboxApp.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\Texture.glsl" />
+    <None Include="assets\shaders\FlatColor.glsl" />
+  </ItemGroup>
 </Project>

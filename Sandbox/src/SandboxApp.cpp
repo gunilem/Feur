@@ -1,9 +1,7 @@
-#include <Feur.h>
-
 #include "SandboxApp.h"
-#include "imgui/imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace Feur;
 
@@ -11,31 +9,30 @@ namespace Sandbox {
 
 	//------ExampleLayer----------
 	ExampleLayer::ExampleLayer()
-		: m_Camera(OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f)), Layer("Example")
+		: m_CameraController(1.6f / 0.9f, true), Layer("Example")
 	{
-		std::shared_ptr<VertexBuffer> vertexBuffer, squareVertexBuffer;
-		std::shared_ptr<IndexBuffer> indexBuffer, squareIndexBuffer;
+		Ref<VertexBuffer> vertexBuffer, squareVertexBuffer;
+		Ref<IndexBuffer> indexBuffer, squareIndexBuffer;
 
 		m_DataWindow.VSync = Application::Get().GetWindow().IsVSync();
 
 		//------Triangle-------------
 		//------VertexArray----------
-		m_vertexArray.reset(VertexArray::Create());
+		m_vertexArray = VertexArray::Create();
 
 		//------VertexBuffer---------
 		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 1.0, 0.0, 1.0, 1.0f,
-			0.5f, -0.5f, 0.0f, 1.0, 1.0, 0.0, 1.0f,
-			0.0f, 0.5f, 0.0f, 0.0, 1.0, 1.0, 1.0f
+			-0.5f, -0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f,
+			0.0f, 0.5f, 0.0f
 		};
 
-		BufferLayout layout = {
-			{ ShaderDataType::Float3, "a_Position" },
-			{ ShaderDataType::Float4, "a_Color" }
+		BufferLayout layoutTriangle = {
+			{ ShaderDataType::Float3, "a_Position" }
 		};
 
-		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		vertexBuffer->SetLayout(layout);
+		vertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
+		vertexBuffer->SetLayout(layoutTriangle);
 		m_vertexArray->AddVertexbuffer(vertexBuffer);
 		//---------------------------
 
@@ -43,7 +40,7 @@ namespace Sandbox {
 		uint32_t indices[3] = {
 			0, 1 ,2
 		};
-		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		indexBuffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 		m_vertexArray->SetIndexbuffer(indexBuffer);
 		//---------------------------
 		//---------------------------
@@ -52,19 +49,25 @@ namespace Sandbox {
 
 		//------Square---------------
 		//------VertexArray----------
-		m_SquareVertexArray.reset(VertexArray::Create());
+		m_SquareVertexArray = VertexArray::Create();
 
 
 		//------VertexBuffer---------
-		float squareVertices[4 * 7] = {
-			-0.75f, -0.75f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f,
-			-0.75f,  0.75f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f,
-			 0.75f, -0.75f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f,
-			 0.75f,  0.75f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f
+
+		BufferLayout layoutSquare = {
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float2, "a_TexCoord" }
 		};
 
-		squareVertexBuffer.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-		squareVertexBuffer->SetLayout(layout);
+		float squareVertices[4 * 7] = {
+			-0.75f, -0.75f, 0.0f, 0.0f, 0.0f,
+			-0.75f,  0.75f, 0.0f, 0.0f, 1.0f,
+			 0.75f, -0.75f, 0.0f, 1.0f, 0.0f,
+			 0.75f,  0.75f, 0.0f, 1.0f, 1.0f
+		};
+
+		squareVertexBuffer = VertexBuffer::Create(squareVertices, sizeof(squareVertices));
+		squareVertexBuffer->SetLayout(layoutSquare);
 		m_SquareVertexArray->AddVertexbuffer(squareVertexBuffer);
 		//---------------------------
 
@@ -74,66 +77,41 @@ namespace Sandbox {
 			0, 1, 2,
 			1, 3, 2
 		};
-		squareIndexBuffer.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		squareIndexBuffer = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		m_SquareVertexArray->SetIndexbuffer(squareIndexBuffer);
 		//---------------------------
 		//---------------------------
 		//---------------------------
 
 
-
 		//------Shader---------------
-		std::string vertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
-				
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-
-			out vec3 v_Position;
-			out vec4 v_Color;
-
-			void main()
-			{
-				v_Position = a_Position;
-				v_Color = a_Color;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-		)";
-		std::string fragSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-				
-			in vec3 v_Position;
-			in vec4 v_Color;
-
-			void main()
-			{
-				color = vec4(v_Position * 0.5 + 0.5, 1.0);
-				color = v_Color;
-			}
-		)";
-
-		m_Shader.reset(Shader::Create(vertexSrc, fragSrc));
+		auto textureShader = m_ShaderLibrary.Load("Texture", "assets/shaders/Texture.glsl");
+		m_ShaderLibrary.Load("FlatColor", "assets/shaders/FlatColor.glsl");
 		//---------------------------
+
+		m_Texture = Texture2D::Create("assets/textures/france.png");
+
+		textureShader->UploadUniformInt("u_MainTex", 0);
 	}
 
 
 	void ExampleLayer::OnUpdate() {
+		// Update
+		m_CameraController.OnUpdate();
+
+		// Render
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		RenderCommand::Clear();
+		auto textureShader = m_ShaderLibrary.Get("Texture");
+		auto colorShader = m_ShaderLibrary.Get("FlatColor");
 
-		MoveCamera();
-		RotateCamera();
-
-		Renderer::BeginScene(m_Camera);
+		colorShader->UploadUniformFloat3("u_Color", m_SquareColor);
+		Renderer::BeginScene(m_CameraController.GetCamera());
 		{
-			Renderer::Submit(m_Shader, m_SquareVertexArray, m_SquareMat);
+			m_Texture->Bind(0);
+			Renderer::Submit(textureShader, m_SquareVertexArray, m_SquareMat);
+			Renderer::Submit(colorShader, m_vertexArray, m_SquareMat);
 
-			Renderer::Submit(m_Shader, m_vertexArray);
 		}
 		Renderer::EndScene();
 	}
@@ -158,61 +136,17 @@ namespace Sandbox {
 		}
 
 		ImGui::End();
+
+		ImGui::Begin("Square");
+
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
+
+		ImGui::End();
 	}
 
-	void ExampleLayer::OnEvent(Event& event) {}
-
-	void ExampleLayer::MoveCamera() {
-
-		if (Input::IsKeyPressed(F_KEY_D)) {
-			m_CameraPosition.x += m_CameraMoveSpeed * Time::GetDeltaTime();
-		}
-		else if (Input::IsKeyPressed(F_KEY_A)) {
-			m_CameraPosition.x -= m_CameraMoveSpeed * Time::GetDeltaTime();
-		}
-		if (Input::IsKeyPressed(F_KEY_S)) {
-			m_CameraPosition.y -= m_CameraMoveSpeed * Time::GetDeltaTime();
-		}
-		else if (Input::IsKeyPressed(F_KEY_W)) {
-			m_CameraPosition.y += m_CameraMoveSpeed * Time::GetDeltaTime();
-		}
-		if (Input::IsKeyPressed(F_KEY_Z)) {
-			m_CameraPosition.z += m_CameraMoveSpeed * Time::GetDeltaTime();
-		}
-		else if (Input::IsKeyPressed(F_KEY_X)) {
-			m_CameraPosition.z -= m_CameraMoveSpeed * Time::GetDeltaTime();
-		}
-
-		if (Input::IsKeyPressed(F_KEY_RIGHT)) {
-			m_SquareMat = glm::translate(m_SquareMat, { m_CameraMoveSpeed * Time::GetDeltaTime(), 0.0f, 0.0f });
-		}
-		else if (Input::IsKeyPressed(F_KEY_LEFT)) {
-			m_SquareMat = glm::translate(m_SquareMat, { -m_CameraMoveSpeed * Time::GetDeltaTime(), 0.0f, 0.0f });
-		}
-		if (Input::IsKeyPressed(F_KEY_DOWN)) {
-			m_SquareMat = glm::translate(m_SquareMat, { 0.0f, -m_CameraMoveSpeed * Time::GetDeltaTime(), 0.0f });
-		}
-		else if (Input::IsKeyPressed(F_KEY_UP)) {
-			m_SquareMat = glm::translate(m_SquareMat, { 0.0f, m_CameraMoveSpeed * Time::GetDeltaTime(), 0.0f });
-		}
-
-		if (Input::IsKeyPressed(F_KEY_I)) {
-			m_SquareMat = glm::translate(m_SquareMat, { 0.0f, 0.0f, -m_CameraMoveSpeed * Time::GetDeltaTime() });
-		}
-		else if (Input::IsKeyPressed(F_KEY_U)) {
-			m_SquareMat = glm::translate(m_SquareMat, { 0.0f, 0.0f, m_CameraMoveSpeed * Time::GetDeltaTime() });
-		}
-		m_Camera.SetPosition(m_CameraPosition);
-	}
-
-	void ExampleLayer::RotateCamera() {
-		if (Input::IsKeyPressed(F_KEY_R)) {
-			m_CameraRotation += m_CameraRotationSpeed * Time::GetDeltaTime();
-		}
-		else if (Input::IsKeyPressed(F_KEY_T)) {
-			m_CameraRotation -= m_CameraRotationSpeed * Time::GetDeltaTime();
-		}
-		m_Camera.SetRotation(m_CameraRotation);
+	void ExampleLayer::OnEvent(Event& e) 
+	{
+		m_CameraController.OnEvent(e);
 	}
 	//-------------------------
 

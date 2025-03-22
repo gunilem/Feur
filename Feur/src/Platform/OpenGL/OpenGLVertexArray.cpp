@@ -37,7 +37,7 @@ namespace Feur {
 	{
 		glBindVertexArray(0);
 	}
-	void OpenGLVertexArray::AddVertexbuffer(const std::shared_ptr<VertexBuffer>& buffer)
+	void OpenGLVertexArray::AddVertexbuffer(const Ref<VertexBuffer>& buffer)
 	{
 		F_CORE_ASSERT(buffer->GetLayout().GetElements().size(), "OpenGLVertexArray: There sould be a layout on a VertexBuffer!");
 
@@ -62,7 +62,7 @@ namespace Feur {
 
 		m_VertexBuffers.push_back(buffer);
 	}
-	void OpenGLVertexArray::SetIndexbuffer(const std::shared_ptr<IndexBuffer>& buffer)
+	void OpenGLVertexArray::SetIndexbuffer(const Ref<IndexBuffer>& buffer)
 	{
 		glBindVertexArray(m_RendererID);
 		buffer->Bind();
