@@ -2,17 +2,17 @@
 
 // For use by Feur applications
 
-#include "Feur/Application.h"
-#include "Feur/Layer.h"
-#include "Feur/Log.h"
+#include "Feur/Core/Application.h"
+#include "Feur/Core/Layer.h"
+#include "Feur/Core/Log.h"
 
 #include "Feur/Core/Timestep.h"
 
 
 //----Inputs--------------------
-#include "Feur/Input.h"
-#include "Feur/KeyCodes.h"
-#include "Feur/MousebuttonCodes.h"
+#include "Feur/Core/Input.h"
+#include "Feur/Core/KeyCodes.h"
+#include "Feur/Core/MousebuttonCodes.h"
 
 #include "Feur/Events/Event.h"
 #include "Feur/Events/KeyEvent.h"
@@ -35,5 +35,5 @@
 #include "Feur/Imgui/ImGuiLayer.h"
 
 //----EntryPoint--------------
-#include "Feur/EntryPoint.h"
+#include "Feur/Core/EntryPoint.h"
 //--------------------------------

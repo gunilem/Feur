@@ -2,7 +2,7 @@
 
 #include "fpch.h"
 
-#include "Feur/Core.h"
+#include "Feur/Core/Core.h"
 #include "Feur/Events/Event.h"
 
 

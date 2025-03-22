@@ -2,10 +2,10 @@
 
 #include "Core.h"
 
-#include "Core/Timestep.h"
+#include "Feur/Core/Timestep.h"
 
-#include "Window.h"
-#include "Feur/LayerStack.h"
+#include "Feur/Core/Window.h"
+#include "Feur/Core/LayerStack.h"
 #include "Feur/Events/Event.h"
 #include "Feur/Events/ApplicationEvent.h"
 

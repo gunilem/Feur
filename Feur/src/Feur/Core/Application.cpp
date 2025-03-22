@@ -1,7 +1,7 @@
 #include "fpch.h"
 #include "Application.h"
 
-#include "Renderer/Renderer.h"
+#include "Feur/Renderer/Renderer.h"
 
 namespace Feur {
 

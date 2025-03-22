@@ -1,8 +1,8 @@
 #include "fpch.h"
 #include "OrthographicCameraController.h"
 
-#include "Feur/Input.h"
-#include "Feur/KeyCodes.h"
+#include "Feur/Core/Input.h"
+#include "Feur/Core/KeyCodes.h"
 
 namespace Feur {
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)

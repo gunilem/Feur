@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Feur/Core.h"
+#include "Feur/Core/Core.h"
 
 namespace Feur {
 	class FEUR_API Input {

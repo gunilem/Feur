@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Feur/Window.h"
+#include "Feur/Core/Window.h"
 
 #include "Feur/Renderer/GraphicsContext.h"
 

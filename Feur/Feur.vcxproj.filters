@@ -63,17 +63,38 @@
     <ClInclude Include="src\Feur.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur\Application.h">
-      <Filter>src\Feur</Filter>
+    <ClInclude Include="src\Feur\Core\Application.h">
+      <Filter>src\Feur\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur\Core.h">
-      <Filter>src\Feur</Filter>
+    <ClInclude Include="src\Feur\Core\Core.h">
+      <Filter>src\Feur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Core\EntryPoint.h">
+      <Filter>src\Feur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Core\Input.h">
+      <Filter>src\Feur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Core\KeyCodes.h">
+      <Filter>src\Feur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Core\Layer.h">
+      <Filter>src\Feur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Core\LayerStack.h">
+      <Filter>src\Feur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Core\Log.h">
+      <Filter>src\Feur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Core\MousebuttonCodes.h">
+      <Filter>src\Feur\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Feur\Core\Timestep.h">
       <Filter>src\Feur\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur\EntryPoint.h">
-      <Filter>src\Feur</Filter>
+    <ClInclude Include="src\Feur\Core\Window.h">
+      <Filter>src\Feur\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Feur\Events\ApplicationEvent.h">
       <Filter>src\Feur\Events</Filter>
@@ -89,24 +110,6 @@
     </ClInclude>
     <ClInclude Include="src\Feur\Imgui\ImGuiLayer.h">
       <Filter>src\Feur\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Input.h">
-      <Filter>src\Feur</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\KeyCodes.h">
-      <Filter>src\Feur</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Layer.h">
-      <Filter>src\Feur</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\LayerStack.h">
-      <Filter>src\Feur</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Log.h">
-      <Filter>src\Feur</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\MousebuttonCodes.h">
-      <Filter>src\Feur</Filter>
     </ClInclude>
     <ClInclude Include="src\Feur\Renderer\Buffer.h">
       <Filter>src\Feur\Renderer</Filter>
@@ -140,9 +143,6 @@
     </ClInclude>
     <ClInclude Include="src\Feur\Renderer\VertexArray.h">
       <Filter>src\Feur\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Window.h">
-      <Filter>src\Feur</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1430,8 +1430,17 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Feur\Application.cpp">
-      <Filter>src\Feur</Filter>
+    <ClCompile Include="src\Feur\Core\Application.cpp">
+      <Filter>src\Feur\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Core\Layer.cpp">
+      <Filter>src\Feur\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Core\LayerStack.cpp">
+      <Filter>src\Feur\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Core\Log.cpp">
+      <Filter>src\Feur\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Feur\Core\Timestep.cpp">
       <Filter>src\Feur\Core</Filter>
@@ -1441,15 +1450,6 @@
     </ClCompile>
     <ClCompile Include="src\Feur\Imgui\ImGuiLayer.cpp">
       <Filter>src\Feur\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Layer.cpp">
-      <Filter>src\Feur</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\LayerStack.cpp">
-      <Filter>src\Feur</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Log.cpp">
-      <Filter>src\Feur</Filter>
     </ClCompile>
     <ClCompile Include="src\Feur\Renderer\Buffer.cpp">
       <Filter>src\Feur\Renderer</Filter>

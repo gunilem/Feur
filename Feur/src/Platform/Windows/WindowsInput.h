@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Feur/Input.h"
+#include "Feur/Core/Input.h"
 
 namespace Feur {
 	class WindowsInput : public Input

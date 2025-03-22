@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Feur/Core.h"
-#include "Layer.h"
+#include "Feur/Core/Core.h"
+#include "Feur/Core/Layer.h"
 
 #include <vector>
 

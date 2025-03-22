@@ -1,7 +1,7 @@
 #include "fpch.h"
 #include "WindowsInput.h"
 
-#include "Feur/Application.h"
+#include "Feur/Core/Application.h"
 #include <glfw/glfw3.h>
 
 namespace Feur {

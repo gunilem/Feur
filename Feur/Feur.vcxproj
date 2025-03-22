@@ -147,21 +147,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Feur.h" />
-    <ClInclude Include="src\Feur\Application.h" />
-    <ClInclude Include="src\Feur\Core.h" />
+    <ClInclude Include="src\Feur\Core\Application.h" />
+    <ClInclude Include="src\Feur\Core\Core.h" />
+    <ClInclude Include="src\Feur\Core\EntryPoint.h" />
+    <ClInclude Include="src\Feur\Core\Input.h" />
+    <ClInclude Include="src\Feur\Core\KeyCodes.h" />
+    <ClInclude Include="src\Feur\Core\Layer.h" />
+    <ClInclude Include="src\Feur\Core\LayerStack.h" />
+    <ClInclude Include="src\Feur\Core\Log.h" />
+    <ClInclude Include="src\Feur\Core\MousebuttonCodes.h" />
     <ClInclude Include="src\Feur\Core\Timestep.h" />
-    <ClInclude Include="src\Feur\EntryPoint.h" />
+    <ClInclude Include="src\Feur\Core\Window.h" />
     <ClInclude Include="src\Feur\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Feur\Events\Event.h" />
     <ClInclude Include="src\Feur\Events\KeyEvent.h" />
     <ClInclude Include="src\Feur\Events\MouseEvent.h" />
     <ClInclude Include="src\Feur\Imgui\ImGuiLayer.h" />
-    <ClInclude Include="src\Feur\Input.h" />
-    <ClInclude Include="src\Feur\KeyCodes.h" />
-    <ClInclude Include="src\Feur\Layer.h" />
-    <ClInclude Include="src\Feur\LayerStack.h" />
-    <ClInclude Include="src\Feur\Log.h" />
-    <ClInclude Include="src\Feur\MousebuttonCodes.h" />
     <ClInclude Include="src\Feur\Renderer\Buffer.h" />
     <ClInclude Include="src\Feur\Renderer\Camera\Camera.h" />
     <ClInclude Include="src\Feur\Renderer\Camera\Controllers\OrthographicCameraController.h" />
@@ -173,7 +174,6 @@
     <ClInclude Include="src\Feur\Renderer\Shader.h" />
     <ClInclude Include="src\Feur\Renderer\Texture.h" />
     <ClInclude Include="src\Feur\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Feur\Window.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -604,13 +604,13 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Feur\Application.cpp" />
+    <ClCompile Include="src\Feur\Core\Application.cpp" />
+    <ClCompile Include="src\Feur\Core\Layer.cpp" />
+    <ClCompile Include="src\Feur\Core\LayerStack.cpp" />
+    <ClCompile Include="src\Feur\Core\Log.cpp" />
     <ClCompile Include="src\Feur\Core\Timestep.cpp" />
     <ClCompile Include="src\Feur\Imgui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Feur\Imgui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Feur\Layer.cpp" />
-    <ClCompile Include="src\Feur\LayerStack.cpp" />
-    <ClCompile Include="src\Feur\Log.cpp" />
     <ClCompile Include="src\Feur\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Feur\Renderer\Camera\Controllers\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Feur\Renderer\Camera\OrthographicCamera.cpp" />
