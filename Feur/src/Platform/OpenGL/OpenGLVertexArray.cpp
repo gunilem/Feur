@@ -24,21 +24,31 @@ namespace Feur {
 	}
 
 	OpenGLVertexArray::OpenGLVertexArray() {
+		F_PROFILE_FUNCTION();
+
 		glCreateVertexArrays(1, &m_RendererID);
 	}
 	OpenGLVertexArray::~OpenGLVertexArray() {
+		F_PROFILE_FUNCTION();
+
 		glDeleteVertexArrays(1, &m_RendererID);
 	}
 	void OpenGLVertexArray::Bind() const
 	{
+		F_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 	}
 	void OpenGLVertexArray::Unbind() const
 	{
+		F_PROFILE_FUNCTION();
+
 		glBindVertexArray(0);
 	}
 	void OpenGLVertexArray::AddVertexbuffer(const Ref<VertexBuffer>& buffer)
 	{
+		F_PROFILE_FUNCTION();
+
 		F_CORE_ASSERT(buffer->GetLayout().GetElements().size(), "OpenGLVertexArray: There sould be a layout on a VertexBuffer!");
 
 		glBindVertexArray(m_RendererID);
@@ -64,6 +74,8 @@ namespace Feur {
 	}
 	void OpenGLVertexArray::SetIndexbuffer(const Ref<IndexBuffer>& buffer)
 	{
+		F_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 		buffer->Bind();
 

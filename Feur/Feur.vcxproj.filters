@@ -132,6 +132,9 @@
     <ClInclude Include="src\Feur\Renderer\Renderer.h">
       <Filter>src\Feur\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Feur\Renderer\Renderer2D.h">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Feur\Renderer\RendererAPI.h">
       <Filter>src\Feur\Renderer</Filter>
     </ClInclude>
@@ -1428,6 +1431,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Feur\Debug\Instrumentor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Feur\Core\Application.cpp">
@@ -1464,6 +1468,9 @@
       <Filter>src\Feur\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Feur\Renderer\Renderer.cpp">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Renderer\Renderer2D.cpp">
       <Filter>src\Feur\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Feur\Renderer\RendererAPI.cpp">

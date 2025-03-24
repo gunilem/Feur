@@ -8,6 +8,7 @@
 
 #include "Feur/Core/Timestep.h"
 
+#include "Feur/Debug/Instrumentor.h"
 
 //----Inputs--------------------
 #include "Feur/Core/Input.h"
@@ -21,6 +22,7 @@
 
 //----Renderer-------------------
 #include "Feur/Renderer/Renderer.h"
+#include "Feur/Renderer/Renderer2D.h"
 #include "Feur/Renderer/RenderCommand.h"
 
 #include "Feur/Renderer/Buffer.h"
@@ -33,7 +35,3 @@
 //--------------------------------
 
 #include "Feur/Imgui/ImGuiLayer.h"
-
-//----EntryPoint--------------
-#include "Feur/Core/EntryPoint.h"
-//--------------------------------

@@ -16,6 +16,7 @@
 #include <unordered_set>
 
 #include "Feur/Core/Log.h"
+#include "Feur/Debug/Instrumentor.h"
 
 
 #if F_PLATFORM_WINDOWS

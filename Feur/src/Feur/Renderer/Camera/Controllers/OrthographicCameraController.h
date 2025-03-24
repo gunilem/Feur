@@ -17,7 +17,7 @@ namespace Feur {
 		void OnUpdate();
 		void OnEvent(Event& e);
 
-		inline const Camera& GetCamera() const { return m_Camera; }
+		inline const OrthographicCamera& GetCamera() const { return m_Camera; }
 		inline const float GetZoomLevel() const { return m_ZoomLevel; }
 
 		inline void SetZoomLevel(float level) { m_ZoomLevel = level; }

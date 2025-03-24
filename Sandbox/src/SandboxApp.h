@@ -3,8 +3,6 @@
 
 #include <Feur.h>
 
-#include "imgui/imgui.h"
-
 #include <glm/glm.hpp>
 
 using namespace Feur;

@@ -16,6 +16,8 @@ namespace Feur {
 
 	OpenGLShader::OpenGLShader(const std::string& path)
 	{
+		F_PROFILE_FUNCTION();
+
 		std::string source = ReadFile(path);
 		auto shaderSources = PreProcess(source);
 
@@ -33,6 +35,8 @@ namespace Feur {
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& path)
 		: m_Name(name)
 	{
+		F_PROFILE_FUNCTION();
+
 		std::string source = ReadFile(path);
 		auto shaderSources = PreProcess(source);
 
@@ -42,6 +46,8 @@ namespace Feur {
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragsrc)
 		: m_Name(name)
 	{
+		F_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragsrc;
@@ -52,6 +58,8 @@ namespace Feur {
 
 	std::string OpenGLShader::ReadFile(const std::string& path)
 	{
+		F_PROFILE_FUNCTION();
+
 		std::string result;
 		std::ifstream in(path, std::ios::in | std::ios::binary);
 		if (in) {
@@ -71,6 +79,8 @@ namespace Feur {
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
 	{
+		F_PROFILE_FUNCTION();
+
 		std::unordered_map < GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -93,17 +103,43 @@ namespace Feur {
 
 	OpenGLShader::~OpenGLShader()
 	{
+		F_PROFILE_FUNCTION();
+
 		glDeleteProgram(m_RendererID);
 	}
 
 	void OpenGLShader::Bind() const
 	{
+		F_PROFILE_FUNCTION();
+
 		glUseProgram(m_RendererID);
 	}
 
 	void OpenGLShader::Unbind() const
 	{
+		F_PROFILE_FUNCTION();
+
 		glUseProgram(0);
+	}
+
+	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& values)
+	{
+		UploadUniformFloat3(name, values);
+	}
+
+	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& values)
+	{
+		UploadUniformFloat4(name, values);
+	}
+
+	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& matrix)
+	{
+		UploadUniformMat4(name, matrix);
+	}
+
+	void OpenGLShader::SetInt(const std::string& name, const int value)
+	{
+		UploadUniformInt(name, value);
 	}
 
 	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
@@ -122,6 +158,15 @@ namespace Feur {
 		F_CORE_ASSERT(location != -1, "OpenGLShader: uniform name does not exist!")
 
 		glUniform3f(location, values.x, values.y, values.z);
+	}
+
+	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& values)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+
+		F_CORE_ASSERT(location != -1, "OpenGLShader: uniform name does not exist!")
+
+		glUniform4f(location, values.x, values.y, values.z, values.w);
 	}
 
 	void OpenGLShader::UploadUniformInt(const std::string& name, const int value)
