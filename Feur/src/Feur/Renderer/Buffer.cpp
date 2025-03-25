@@ -27,7 +27,17 @@ namespace Feur {
 	}
 
 
+	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
+	{
+		switch (Renderer::GetAPI())
+		{
+			case RendererAPI::API::None: F_CORE_ASSERT(false, "RendererAPI VertexBuffer: None Renderer API currently not supported!") return nullptr;
+			case RendererAPI::API::OpenGL3: return std::make_shared<OpenGLVertexBuffer>(size);
+		}
 
+		F_CORE_ASSERT(false, "RendererAPI: Unknown renderer API")
+		return nullptr;
+	}
 
 	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 	{

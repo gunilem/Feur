@@ -65,6 +65,11 @@ namespace Feur {
         ImGui::DestroyContext();
 	}
 
+    void ImGuiLayer::OnEvent(Event& e)
+    {
+        
+    }
+
     void ImGuiLayer::Begin() {
         F_PROFILE_FUNCTION();
 

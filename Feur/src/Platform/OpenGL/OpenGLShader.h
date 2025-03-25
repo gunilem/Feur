@@ -19,6 +19,7 @@ namespace Feur {
 		virtual void SetFloat4(const std::string& name, const glm::vec4& values) override;
 		virtual void SetMat4(const std::string& name, const glm::mat4& matrix) override;
 		virtual void SetInt(const std::string& name, const int value) override;
+		virtual void SetIntArray(const std::string& name, const int* values, const uint32_t count) override;
 
 		virtual const std::string& GetName() const override { return m_Name; };
 
@@ -26,6 +27,7 @@ namespace Feur {
 		void UploadUniformFloat3(const std::string& name, const glm::vec3& values);
 		void UploadUniformFloat4(const std::string& name, const glm::vec4& values);
 		void UploadUniformInt(const std::string& name, const int value);
+		void UploadUniformIntArray(const std::string& name, const int* values, const uint32_t count);
 
 	private:
 		std::string ReadFile(const std::string& path);

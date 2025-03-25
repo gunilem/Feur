@@ -7,6 +7,7 @@ namespace Feur {
 	class OpenGLVertexBuffer : public VertexBuffer
 	{
 	public:
+		OpenGLVertexBuffer(uint32_t size);
 		OpenGLVertexBuffer(float* vertices, uint32_t size);
 		virtual ~OpenGLVertexBuffer() override;
 
@@ -15,6 +16,7 @@ namespace Feur {
 
 		inline virtual const BufferLayout& GetLayout() const { return m_Layout; };
 		inline virtual void SetLayout(BufferLayout& layout) override { m_Layout = layout; };
+		virtual void SetData(const void* data, uint32_t size);
 
 
 	private:

@@ -1,14 +1,11 @@
 #include "fpch.h"
-#include "WindowsInput.h"
+#include "Feur/Core/Input.h"
 
 #include "Feur/Core/Application.h"
 #include <glfw/glfw3.h>
 
 namespace Feur {
-
-	Input* Input::s_Instance = new WindowsInput();
-
-	bool WindowsInput::IsKeyPresedImpl(int keycode) {
+	bool Input::IsKeyPressed(int keycode) {
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
 		auto state = glfwGetKey(window, keycode);
@@ -16,7 +13,7 @@ namespace Feur {
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	bool WindowsInput::IsMouseButtonPressedImpl(int button) {
+	bool Input::IsMouseButtonPressed(int button) {
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
 		auto state = glfwGetMouseButton(window, button);
@@ -26,7 +23,7 @@ namespace Feur {
 
 
 
-	std::pair<float, float> WindowsInput::GetMousePositionImpl() {
+	glm::vec2 Input::GetMousePosition() {
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
 		double xpos, ypos;
@@ -36,14 +33,14 @@ namespace Feur {
 		return { (float)xpos,(float)ypos };
 	}
 
-	float WindowsInput::GetMouseXImpl() {
-		auto[x, y] = GetMousePositionImpl();
+	float Input::GetMouseX() {
+		glm::vec2 position = GetMousePosition();
 
-		return x;
+		return position.x;
 	}
-	float WindowsInput::GetMouseYImpl() {
-		auto [x, y] = GetMousePositionImpl();
+	float Input::GetMouseY() {
+		glm::vec2 position = GetMousePosition();
 
-		return y;
+		return position.y;
 	}
 }

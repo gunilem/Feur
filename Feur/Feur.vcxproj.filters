@@ -10,6 +10,9 @@
     <Filter Include="src\Feur\Core">
       <UniqueIdentifier>{C6CF997D-3290-15B4-FBCA-5E31674A5A90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Feur\Debug">
+      <UniqueIdentifier>{A423E030-90F1-D336-7985-445D65F2AF9B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Feur\Events">
       <UniqueIdentifier>{D2EA6E50-3E76-DC14-4787-5F09B3913815}</UniqueIdentifier>
     </Filter>
@@ -96,6 +99,9 @@
     <ClInclude Include="src\Feur\Core\Window.h">
       <Filter>src\Feur\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Feur\Debug\Instrumentor.h">
+      <Filter>src\Feur\Debug</Filter>
+    </ClInclude>
     <ClInclude Include="src\Feur\Events\ApplicationEvent.h">
       <Filter>src\Feur\Events</Filter>
     </ClInclude>
@@ -122,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="src\Feur\Renderer\Camera\OrthographicCamera.h">
       <Filter>src\Feur\Renderer\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Renderer\FrameBuffer.h">
+      <Filter>src\Feur\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Feur\Renderer\GraphicsContext.h">
       <Filter>src\Feur\Renderer</Filter>
@@ -151,6 +160,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
@@ -1431,7 +1443,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur\Debug\Instrumentor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Feur\Core\Application.cpp">
@@ -1464,6 +1475,9 @@
     <ClCompile Include="src\Feur\Renderer\Camera\OrthographicCamera.cpp">
       <Filter>src\Feur\Renderer\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="src\Feur\Renderer\FrameBuffer.cpp">
+      <Filter>src\Feur\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Feur\Renderer\RenderCommand.cpp">
       <Filter>src\Feur\Renderer</Filter>
     </ClCompile>
@@ -1489,6 +1503,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
