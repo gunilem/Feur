@@ -16,6 +16,6 @@ namespace FeurEditor {
 	//-------------------------
 }
 
-Feur::Application* Feur::CreateApplication() {
+Feur::Application* CreateApplication() {
 	return new FeurEditor::FeurEditor();
 }

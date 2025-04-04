@@ -16,7 +16,3 @@ namespace Sandbox {
 	}
 	//-------------------------
 }
-
-Application* Feur::CreateApplication() {
-	return new Sandbox::Sandbox();
-}

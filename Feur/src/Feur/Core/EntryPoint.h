@@ -1,25 +1,10 @@
 #pragma once
 
-#ifdef F_PLATFORM_WINDOWS
+#include "Feur/Core/Application.h"
 
-extern Feur::Application* Feur::CreateApplication();
+extern Feur::Application* CreateApplication();
 
 int main(int args, char** argv) {
-
-	Feur::Log::Init();
-
-	F_PROFILE_BEGIN_SESSION("Startup", "FeurProfile-Startup.json");
-	auto app = Feur::CreateApplication();
-	F_PROFILE_END_SESSION();
-
-	F_PROFILE_BEGIN_SESSION("Runtime", "FeurProfile-Runtime.json");
+	auto app = CreateApplication();
 	app->Run();
-	F_PROFILE_END_SESSION();
-
-	F_PROFILE_BEGIN_SESSION("Shutdown", "FeurProfile-Shutdown.json");
-	delete app;
-	F_PROFILE_END_SESSION();
 }
-#else
-
-#endif // F_PLATFORM_WINDOWS

@@ -10,32 +10,20 @@
     <Filter Include="src\Feur\Core">
       <UniqueIdentifier>{C6CF997D-3290-15B4-FBCA-5E31674A5A90}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Feur\Debug">
-      <UniqueIdentifier>{A423E030-90F1-D336-7985-445D65F2AF9B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Feur\Events">
-      <UniqueIdentifier>{D2EA6E50-3E76-DC14-4787-5F09B3913815}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Feur\Imgui">
-      <UniqueIdentifier>{78163F31-64E4-3237-4D78-A35D39E50E9C}</UniqueIdentifier>
+    <Filter Include="src\Feur\GUI">
+      <UniqueIdentifier>{C2F4FCBD-AE57-8C62-57DD-C418431F58E5}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Feur\Renderer">
       <UniqueIdentifier>{14F6CF1E-800C-CEB4-C983-59D635D99E3C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Feur\Renderer\Camera">
-      <UniqueIdentifier>{0C6CF7FC-F890-467D-21DC-2B0D0D60459B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Feur\Renderer\Camera\Controllers">
-      <UniqueIdentifier>{725CFC09-5E43-BE01-0794-241FF3593768}</UniqueIdentifier>
+    <Filter Include="src\Feur\Window">
+      <UniqueIdentifier>{D54B8579-41D7-F23D-4AE8-7532B6F24E3E}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform\OpenGL">
       <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Platform\Windows">
-      <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
@@ -69,16 +57,10 @@
     <ClInclude Include="src\Feur\Core\Application.h">
       <Filter>src\Feur\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur\Core\Core.h">
+    <ClInclude Include="src\Feur\Core\Base.h">
       <Filter>src\Feur\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Feur\Core\EntryPoint.h">
-      <Filter>src\Feur\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Core\Input.h">
-      <Filter>src\Feur\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Core\KeyCodes.h">
       <Filter>src\Feur\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Feur\Core\Layer.h">
@@ -87,101 +69,17 @@
     <ClInclude Include="src\Feur\Core\LayerStack.h">
       <Filter>src\Feur\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur\Core\Log.h">
-      <Filter>src\Feur\Core</Filter>
+    <ClInclude Include="src\Feur\GUI\UIElement.h">
+      <Filter>src\Feur\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur\Core\MousebuttonCodes.h">
-      <Filter>src\Feur\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Core\Timestep.h">
-      <Filter>src\Feur\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Core\Window.h">
-      <Filter>src\Feur\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Debug\Instrumentor.h">
-      <Filter>src\Feur\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Events\ApplicationEvent.h">
-      <Filter>src\Feur\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Events\Event.h">
-      <Filter>src\Feur\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Events\KeyEvent.h">
-      <Filter>src\Feur\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Events\MouseEvent.h">
-      <Filter>src\Feur\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Imgui\ImGuiLayer.h">
-      <Filter>src\Feur\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\Buffer.h">
+    <ClInclude Include="src\Feur\Renderer\RendererContext2D.h">
       <Filter>src\Feur\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\Camera\Camera.h">
-      <Filter>src\Feur\Renderer\Camera</Filter>
+    <ClInclude Include="src\Feur\Window\Window.h">
+      <Filter>src\Feur\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\Camera\Controllers\OrthographicCameraController.h">
-      <Filter>src\Feur\Renderer\Camera\Controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\Camera\OrthographicCamera.h">
-      <Filter>src\Feur\Renderer\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\FrameBuffer.h">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\GraphicsContext.h">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\RenderCommand.h">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\Renderer.h">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\Renderer2D.h">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\RendererAPI.h">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\Shader.h">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\Texture.h">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Renderer\VertexArray.h">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererContext2D.h">
       <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
-      <Filter>src\Platform\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
-      <Filter>src\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\fpch.h">
       <Filter>src</Filter>
@@ -1448,83 +1346,17 @@
     <ClCompile Include="src\Feur\Core\Application.cpp">
       <Filter>src\Feur\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Feur\Core\Layer.cpp">
-      <Filter>src\Feur\Core</Filter>
-    </ClCompile>
     <ClCompile Include="src\Feur\Core\LayerStack.cpp">
       <Filter>src\Feur\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Feur\Core\Log.cpp">
-      <Filter>src\Feur\Core</Filter>
+    <ClCompile Include="src\Feur\GUI\UIElement.cpp">
+      <Filter>src\Feur\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="src\Feur\Core\Timestep.cpp">
-      <Filter>src\Feur\Core</Filter>
+    <ClCompile Include="src\Feur\Window\Window.cpp">
+      <Filter>src\Feur\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Feur\Imgui\ImGuiBuild.cpp">
-      <Filter>src\Feur\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Imgui\ImGuiLayer.cpp">
-      <Filter>src\Feur\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Renderer\Buffer.cpp">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Renderer\Camera\Controllers\OrthographicCameraController.cpp">
-      <Filter>src\Feur\Renderer\Camera\Controllers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Renderer\Camera\OrthographicCamera.cpp">
-      <Filter>src\Feur\Renderer\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Renderer\FrameBuffer.cpp">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Renderer\RenderCommand.cpp">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Renderer\Renderer.cpp">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Renderer\Renderer2D.cpp">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Renderer\RendererAPI.cpp">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Renderer\Shader.cpp">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Renderer\Texture.cpp">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Renderer\VertexArray.cpp">
-      <Filter>src\Feur\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererContext2D.cpp">
       <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
-      <Filter>src\Platform\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
-      <Filter>src\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\fpch.cpp">
       <Filter>src</Filter>
