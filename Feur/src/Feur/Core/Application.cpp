@@ -1,11 +1,10 @@
 #include "fpch.h"
 #include "Application.h"
 
-#include "Feur/UI/Window.h"
-#include "Feur/UI/Button.h"
 
-
-
+#include <set>
+#include <filesystem>
+#include <assert.h>
 
 namespace Feur {
 
@@ -18,185 +17,206 @@ namespace Feur {
 	}
 	void Application::Run()
 	{
-		while (!glfwWindowShouldClose(m_NativeWindow)) {
+		while (!m_Window.ShouldClose()) {
 			glfwPollEvents();
 
-			m_Rootwidget->draw();
+			DrawFrame();
 		}
 
-		glfwDestroyWindow(m_NativeWindow);
-		glfwTerminate();
+		vkDeviceWaitIdle(m_Device.device());
+	}
+
+	void Application::LoadModels()
+	{
+		std::vector<Model::Vertex> vertices{
+			{{ 0.0f, -0.5f}, {0.8f, 0.2f, 0.3f}},
+			{{ 0.5f,  0.5f}, {0.3f, 0.8f, 0.2f}},
+			{{-0.5f,  0.5f}, {0.2f, 0.3f, 0.8f}}
+		};
+
+		m_Model = std::make_unique<Model>(m_Device, vertices);
+	}
+
+	void Application::CreatePipelineLayout()
+	{
+		VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+		pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+		pipelineLayoutInfo.setLayoutCount = 0;
+		pipelineLayoutInfo.pSetLayouts = nullptr;
+		pipelineLayoutInfo.pushConstantRangeCount = 0;
+		pipelineLayoutInfo.pPushConstantRanges = nullptr;
+
+		if (vkCreatePipelineLayout(m_Device.device(), &pipelineLayoutInfo, NULL, &m_PipelineLayout) != VK_SUCCESS) {
+			throw std::runtime_error("failed to create pipeline layout");
+		}
+	}
+
+	void Application::CreatePipeline()
+	{
+		assert(m_SwapChain != nullptr && "Connot create pipeline before swap Chain");
+		assert(m_PipelineLayout != nullptr && "Connot create pipeline before pipeline layout");
+
+		PipelineConfigInfo pipelineConfig{};
+		Pipeline::defaultPipelineConfigInfo(pipelineConfig);
+
+		pipelineConfig.RenderPass = m_SwapChain->getRenderPass();
+		pipelineConfig.PipelineLayout = m_PipelineLayout;
+
+		m_Pipeline = std::make_unique<Pipeline>(m_Device, 
+			"assets/shader.vert.spv",
+			"assets/shader.frag.spv",
+			pipelineConfig);
+	}
+
+	void Application::CreateCommandBuffers()
+	{
+		m_CommandBuffers.resize(m_SwapChain->imageCount());
+
+		VkCommandBufferAllocateInfo allocInfo{};
+		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+		allocInfo.commandPool = m_Device.getCommandPool();
+		allocInfo.commandBufferCount = static_cast<uint32_t>(m_CommandBuffers.size());
+
+		if (vkAllocateCommandBuffers(m_Device.device(), &allocInfo, m_CommandBuffers.data()) != VK_SUCCESS) {
+			throw std::runtime_error("failed to allocate command buffers");
+		}
+	}
+
+	void Application::freeCommandBuffer()
+	{
+		vkFreeCommandBuffers(
+			m_Device.device(), 
+			m_Device.getCommandPool(), 
+			static_cast<uint32_t>(m_CommandBuffers.size()),
+			m_CommandBuffers.data());
+		m_CommandBuffers.clear();
+	}
+
+	void Application::DrawFrame() {
+		uint32_t imageIndex;
+		auto result = m_SwapChain->acquireNextImage(&imageIndex);
+
+		if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+			RecreateSwapChain();
+			return;
+		}
+
+		if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+			throw std::runtime_error("failed to aquire swap chain image");
+		}
+
+		RecordCommandBuffer(imageIndex);
+		result = m_SwapChain->submitCommandBuffers(&m_CommandBuffers[imageIndex], &imageIndex);
+		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || m_Window.wasWindowResized()) {
+			m_Window.resetWindowResizedFlag();
+			RecreateSwapChain();
+			return;
+		}
+		if (result != VK_SUCCESS) {
+			throw std::runtime_error("failed to present swap chain image");
+		}
+	}
+
+	void Application::RecreateSwapChain()
+	{
+		auto extent = m_Window.GetExtent();
+		while (extent.width == 0 || extent.height == 0) {
+			extent = m_Window.GetExtent();
+			glfwWaitEvents();
+		}
+
+		vkDeviceWaitIdle(m_Device.device());
+		if (m_SwapChain == nullptr) {
+			m_SwapChain = std::make_unique<SwapChain>(m_Device, extent);
+		}
+		else {
+			m_SwapChain = std::make_unique<SwapChain>(m_Device, extent, std::move(m_SwapChain));
+			if (m_SwapChain->imageCount() != m_CommandBuffers.size()) {
+				freeCommandBuffer();
+				CreateCommandBuffers();
+			}
+		}
+		CreatePipeline();
+	}
+
+	void Application::RecordCommandBuffer(int imageIndex)
+	{
+		VkCommandBufferBeginInfo beginInfo{};
+		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+
+		if (vkBeginCommandBuffer(m_CommandBuffers[imageIndex], &beginInfo) != VK_SUCCESS) {
+			throw std::runtime_error("failed to begin recording command buffer");
+		}
+
+		VkRenderPassBeginInfo renderPassInfo{};
+		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		renderPassInfo.renderPass = m_SwapChain->getRenderPass();
+		renderPassInfo.framebuffer = m_SwapChain->getFrameBuffer(imageIndex);
+
+		renderPassInfo.renderArea.offset = { 0, 0 };
+		renderPassInfo.renderArea.extent = m_SwapChain->getSwapChainExtent();
+
+		std::array<VkClearValue, 2> clearValues{};
+		//clearValues[0].color = { 0.8f, 0.2f, 0.3f, 1.0f };
+		clearValues[1].depthStencil = { 1.0f, 0 };
+		renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+		renderPassInfo.pClearValues = clearValues.data();
+
+		vkCmdBeginRenderPass(m_CommandBuffers[imageIndex], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+		VkViewport viewport{};
+		viewport.x = 0.0f;
+		viewport.y = 0.0f;
+		viewport.width = static_cast<float>(m_SwapChain->getSwapChainExtent().width);
+		viewport.height = static_cast<float>(m_SwapChain->getSwapChainExtent().height);
+		viewport.minDepth = 0.0f;
+		viewport.maxDepth = 1.0f;
+
+		VkRect2D scissor{ {0, 0}, m_SwapChain->getSwapChainExtent() };
+		vkCmdSetViewport(m_CommandBuffers[imageIndex], 0, 1, &viewport);
+		vkCmdSetScissor(m_CommandBuffers[imageIndex], 0, 1, &scissor);
+
+
+		m_Pipeline->bind(m_CommandBuffers[imageIndex]);
+		m_Model->Bind(m_CommandBuffers[imageIndex]);
+		m_Model->Draw(m_CommandBuffers[imageIndex]);
+
+		vkCmdEndRenderPass(m_CommandBuffers[imageIndex]);
+		if (vkEndCommandBuffer(m_CommandBuffers[imageIndex]) != VK_SUCCESS) {
+			throw std::runtime_error("failed to record command buffer");
+		}
 	}
 
 	int Application::Init()
 	{
-		if (!glfwInit()) {
-			std::cerr << "Failed to Initialize GLFW" << std::endl;
-			return -1;
-		}
+		InitWindow();
 
-		if (!glfwVulkanSupported()) {
-			std::cerr << "Vulkan is not supported" << std::endl;
-			return -1;
-		}
 
-		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-
-		m_NativeWindow = glfwCreateWindow(1280, 720, m_ApplicationName.c_str(), nullptr, nullptr);
-		if (!m_NativeWindow) {
-			std::cerr << "Failed to Create a Window" << std::endl;
-			glfwTerminate();
-			return -1;
-		}
-
-		m_Rootwidget = std::make_shared<Window>("Feur");
-
-		std::shared_ptr<Button> b1 = std::make_shared<Button>("Click me");
-		std::shared_ptr<Button> b2 = std::make_shared<Button>("Exit");
-
-		m_Rootwidget->addChild(b1);
-		m_Rootwidget->addChild(b2);
-
-		InitVukan();
-		CreateSurface();
 
 		return 0;
 	}
 
-	Application::Application(const std::string& name) : m_ApplicationName(name)
-	{
+	void Application::InitWindow() {
 		
 	}
 
-	void Application::InitVukan() {
-		VkApplicationInfo appInfo{};
-		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-		appInfo.pApplicationName = "Feur";
-		appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-		appInfo.pEngineName = "FeurEngine";
-		appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-		appInfo.apiVersion = VK_API_VERSION_1_3;
-
-		// Get required extensions from GLFW
-		uint32_t glfwExtensionCount = 0;
-		const char** glfwExtensions;
-		glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-		// Instance creation info
-		VkInstanceCreateInfo createInfo{};
-		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-		createInfo.pApplicationInfo = &appInfo;
-		createInfo.enabledExtensionCount = glfwExtensionCount;
-		createInfo.ppEnabledExtensionNames = glfwExtensions;
-		createInfo.enabledLayerCount = 0; // add validation layers here if needed
-
-		// Create instance
-		if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
-			throw std::runtime_error("Failed to create Vulkan instance!");
-		}
+	void Application::Cleanup() {
+		
 	}
 
-	void Application::CreateSurface() {
-		if (glfwCreateWindowSurface(instance, m_NativeWindow, nullptr, &surface) != VK_SUCCESS) {
-			throw std::runtime_error("Failed to create window surface!");
-		}
+	Application::Application(const std::string& name) 
+		: m_ApplicationName(name),
+		m_Window{ WIDTH, HEIGHT, "Vulkan" },
+		m_Device{ m_Window }
+	{
+		LoadModels();
+		CreatePipelineLayout();
+		RecreateSwapChain();
+		CreateCommandBuffers();
 	}
-
-
-	void PickPhysicalDevice(VkInstance instance, VkSurfaceKHR surface) {
-		uint32_t deviceCount = 0;
-		vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
-		if (deviceCount == 0) {
-			throw std::runtime_error("No Vulkan-supported GPUs found!");
-		}
-
-		std::vector<VkPhysicalDevice> devices(deviceCount);
-		vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
-
-		// Choose the first suitable device
-		for (const auto& device : devices) {
-			if (IsDeviceSuitable(device, surface)) {
-				physicalDevice = device;
-				break;
-			}
-		}
-
-		if (physicalDevice == VK_NULL_HANDLE) {
-			throw std::runtime_error("No suitable GPU found!");
-		}
-	}
-
-	QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface) {
-		QueueFamilyIndices indices;
-
-		uint32_t count = 0;
-		vkGetPhysicalDeviceQueueFamilyProperties(device, &count, nullptr);
-
-		std::vector<VkQueueFamilyProperties> families(count);
-		vkGetPhysicalDeviceQueueFamilyProperties(device, &count, families.data());
-
-		int i = 0;
-		for (const auto& family : families) {
-			if (family.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
-				indices.graphicsFamily = i;
-			}
-
-			VkBool32 presentSupport = false;
-			vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
-			if (presentSupport) {
-				indices.presentFamily = i;
-			}
-
-			if (indices.isComplete()) break;
-			i++;
-		}
-
-		return indices;
-	}
-
-	bool IsDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface) {
-		QueueFamilyIndices indices = FindQueueFamilies(device, surface);
-		return indices.isComplete();
-	}
-
-	void CreateLogicalDevice(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface) {
-		QueueFamilyIndices indices = FindQueueFamilies(physicalDevice, surface);
-
-		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
-		std::set<uint32_t> uniqueQueues = { indices.graphicsFamily.value(), indices.presentFamily.value() };
-
-		float queuePriority = 1.0f;
-		for (uint32_t queueFamily : uniqueQueues) {
-			VkDeviceQueueCreateInfo queueCreateInfo{};
-			queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-			queueCreateInfo.queueFamilyIndex = queueFamily;
-			queueCreateInfo.queueCount = 1;
-			queueCreateInfo.pQueuePriorities = &queuePriority;
-			queueCreateInfos.push_back(queueCreateInfo);
-		}
-
-		VkPhysicalDeviceFeatures deviceFeatures{}; // enable features if needed
-
-		VkDeviceCreateInfo createInfo{};
-		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
-		createInfo.pQueueCreateInfos = queueCreateInfos.data();
-		createInfo.pEnabledFeatures = &deviceFeatures;
-
-		// Extensions for swapchain
-		const std::vector<const char*> deviceExtensions = {
-			VK_KHR_SWAPCHAIN_EXTENSION_NAME
-		};
-
-		createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
-		createInfo.ppEnabledExtensionNames = deviceExtensions.data();
-
-		if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS) {
-			throw std::runtime_error("Failed to create logical device!");
-		}
-
-		// Get handles to queues
-		vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
-		vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
+	Application::~Application()
+	{
+		vkDestroyPipelineLayout(m_Device.device(), m_PipelineLayout, nullptr);
 	}
 }

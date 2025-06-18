@@ -10,20 +10,68 @@
     <Filter Include="Feur\UI">
       <UniqueIdentifier>{04CB4904-70AA-C89F-79C2-5376E5202F01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUFeur">
+      <UniqueIdentifier>{F38BA7B3-DF2D-D289-C8E8-E5DDB42959DA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUFeur\Core">
+      <UniqueIdentifier>{2B20658B-97D5-DD80-20CA-D7578C7ED484}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUFeur\Renderer">
+      <UniqueIdentifier>{F9F0E6C8-657C-548D-6E8D-D781DA97B08D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUFeur\Renderer\Vulkan">
+      <UniqueIdentifier>{590CD080-4506-F9D2-2E73-8FE31A0C5F3F}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Feur.h" />
     <ClInclude Include="src\Feur\Core\Application.h">
       <Filter>Feur\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur\UI\Button.h">
-      <Filter>Feur\UI</Filter>
+    <ClInclude Include="src\Feur\Core\Device.h">
+      <Filter>Feur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Core\Model.h">
+      <Filter>Feur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Core\Pipeline.h">
+      <Filter>Feur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Core\Swap_chain.h">
+      <Filter>Feur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Feur\Core\Window.h">
+      <Filter>Feur\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Feur\UI\Widget.h">
       <Filter>Feur\UI</Filter>
     </ClInclude>
-    <ClInclude Include="src\Feur\UI\Window.h">
-      <Filter>Feur\UI</Filter>
+    <ClInclude Include="src\GUFeur\Core\AppWindow.h">
+      <Filter>GUFeur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\Core\Application.h">
+      <Filter>GUFeur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\Core\Core.h">
+      <Filter>GUFeur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\Core\RenderingAPI.h">
+      <Filter>GUFeur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\Device.h">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\GraphicPipeline.h">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\Swapchain.h">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanAllocator.h">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.h">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="src\fpch.h" />
   </ItemGroup>
@@ -31,17 +79,50 @@
     <ClCompile Include="src\Feur\Core\Application.cpp">
       <Filter>Feur\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Feur\Core\Device.cpp">
+      <Filter>Feur\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Core\Model.cpp">
+      <Filter>Feur\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Core\Pipeline.cpp">
+      <Filter>Feur\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Core\Swap_chain.cpp">
+      <Filter>Feur\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Feur\Core\Window.cpp">
+      <Filter>Feur\Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\Feur\EntryPoint.cpp">
       <Filter>Feur</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\UI\Button.cpp">
-      <Filter>Feur\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\Feur\UI\Widget.cpp">
       <Filter>Feur\UI</Filter>
     </ClCompile>
-    <ClCompile Include="src\Feur\UI\Window.cpp">
-      <Filter>Feur\UI</Filter>
+    <ClCompile Include="src\GUFeur\Core\AppWindow.cpp">
+      <Filter>GUFeur\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\Core\Application.cpp">
+      <Filter>GUFeur\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\Core\RenderingAPI.cpp">
+      <Filter>GUFeur\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\EntryPoint.cpp">
+      <Filter>GUFeur</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\Device.cpp">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\GraphicPipeline.cpp">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\Swapchain.cpp">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.cpp">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="src\fpch.cpp" />
   </ItemGroup>

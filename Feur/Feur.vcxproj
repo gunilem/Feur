@@ -79,7 +79,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>fpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>F_PLATFORM_WINDOWS;F_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>F_PLATFORM_WINDOWS;_CRTDBG_MAP_ALLOC;F_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\GLFW\include;C:\VulkanSDK\1.4.309.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -100,7 +100,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>fpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>F_PLATFORM_WINDOWS;F_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>F_PLATFORM_WINDOWS;_CRTDBG_MAP_ALLOC;F_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\GLFW\include;C:\VulkanSDK\1.4.309.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -125,7 +125,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>fpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>F_PLATFORM_WINDOWS;F_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>F_PLATFORM_WINDOWS;_CRTDBG_MAP_ALLOC;F_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\GLFW\include;C:\VulkanSDK\1.4.309.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -148,17 +148,47 @@
   <ItemGroup>
     <ClInclude Include="src\Feur.h" />
     <ClInclude Include="src\Feur\Core\Application.h" />
-    <ClInclude Include="src\Feur\UI\Button.h" />
+    <ClInclude Include="src\Feur\Core\Device.h" />
+    <ClInclude Include="src\Feur\Core\Model.h" />
+    <ClInclude Include="src\Feur\Core\Pipeline.h" />
+    <ClInclude Include="src\Feur\Core\Swap_chain.h" />
+    <ClInclude Include="src\Feur\Core\Window.h" />
     <ClInclude Include="src\Feur\UI\Widget.h" />
-    <ClInclude Include="src\Feur\UI\Window.h" />
+    <ClInclude Include="src\GUFeur\Core\AppWindow.h" />
+    <ClInclude Include="src\GUFeur\Core\Application.h" />
+    <ClInclude Include="src\GUFeur\Core\Core.h" />
+    <ClInclude Include="src\GUFeur\Core\RenderingAPI.h" />
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\Device.h" />
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\GraphicPipeline.h" />
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\Swapchain.h" />
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanAllocator.h" />
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.h" />
     <ClInclude Include="src\fpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Feur\Core\Application.cpp" />
+    <ClCompile Include="src\Feur\Core\Device.cpp" />
+    <ClCompile Include="src\Feur\Core\Model.cpp" />
+    <ClCompile Include="src\Feur\Core\Pipeline.cpp" />
+    <ClCompile Include="src\Feur\Core\Swap_chain.cpp" />
+    <ClCompile Include="src\Feur\Core\Window.cpp" />
     <ClCompile Include="src\Feur\EntryPoint.cpp" />
-    <ClCompile Include="src\Feur\UI\Button.cpp" />
     <ClCompile Include="src\Feur\UI\Widget.cpp" />
-    <ClCompile Include="src\Feur\UI\Window.cpp" />
+    <ClCompile Include="src\GUFeur\Core\AppWindow.cpp" />
+    <ClCompile Include="src\GUFeur\Core\Application.cpp">
+      <ObjectFileName>$(IntDir)\Application1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\Core\RenderingAPI.cpp" />
+    <ClCompile Include="src\GUFeur\EntryPoint.cpp">
+      <ObjectFileName>$(IntDir)\EntryPoint1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\Device.cpp">
+      <ObjectFileName>$(IntDir)\Device1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\GraphicPipeline.cpp" />
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\Swapchain.cpp" />
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanAllocator.cpp" />
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.cpp" />
     <ClCompile Include="src\fpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

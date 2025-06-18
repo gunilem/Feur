@@ -1,25 +1,39 @@
 #pragma once
 
+#include "Feur/Core/Device.h"
+
 namespace Feur {
+
+	struct WidgetVertices {
+		float Position[2];
+		float Color[3];
+	};
+
+	struct WidgetTransform {
+		float X, Y;
+		float Width, Height;
+	};
+
 	class Widget
 	{
 	public:
-		virtual void draw();
-		virtual void update();
-		virtual void onEvent();
+		Widget(Device& device, WidgetTransform& transform);
+		~Widget();
 
-		void addChild(std::shared_ptr<Widget> child);
-
-		virtual ~Widget() {
-			std::cout << "widget destroyed" << std::endl;
-		}
-
-	protected:
-		Widget* m_Parent = nullptr;
-		std::vector< std::shared_ptr<Widget>> m_Children;
+		void Bind(VkCommandBuffer commandBuffer);
+		void Draw(VkCommandBuffer commandBuffer);
 
 	private:
-		int x, y;
-		uint32_t width, height;
+		void createVertextBuffers(const std::vector<WidgetVertices>& vertices);
+
+	private:
+		WidgetTransform m_Transform;
+		std::vector<WidgetVertices> m_WidgetVertices;
+
+		Device& m_Device;
+		VkBuffer m_VertexBuffer;
+		VkDeviceMemory m_VertexBufferMemory;
+		uint32_t m_VertexCount;
 	};
+
 }

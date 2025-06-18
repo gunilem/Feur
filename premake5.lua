@@ -58,7 +58,8 @@ project "Feur"
         systemversion "latest"
 
         defines{
-            "F_PLATFORM_WINDOWS"
+            "F_PLATFORM_WINDOWS",
+            "_CRTDBG_MAP_ALLOC"
         }
 
     filter "configurations:Debug"
