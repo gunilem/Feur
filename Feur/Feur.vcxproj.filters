@@ -121,6 +121,9 @@
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\Swapchain.cpp">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
     </ClCompile>
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanAllocator.cpp">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClCompile>
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.cpp">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
     </ClCompile>

@@ -11,6 +11,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Feur/vendor/GLFW/include"
+IncludeDir["glm"] = "Feur/vendor/glm"
 
 group "Dependencies"
     include "Feur/vendor/GLFW"
@@ -41,6 +42,7 @@ project "Feur"
     includedirs{
         "%{prj.name}/src",
         "%{IncludeDir.GLFW}",
+        "%{IncludeDir.glm}",
         "%{os.getenv('VULKAN_SDK')}/Include"
     }
     
@@ -50,6 +52,7 @@ project "Feur"
     
     links{
         "GLFW",
+        "glm",
         "Vulkan-1"
     }
 
@@ -58,8 +61,7 @@ project "Feur"
         systemversion "latest"
 
         defines{
-            "F_PLATFORM_WINDOWS",
-            "_CRTDBG_MAP_ALLOC"
+            "F_PLATFORM_WINDOWS"
         }
 
     filter "configurations:Debug"
