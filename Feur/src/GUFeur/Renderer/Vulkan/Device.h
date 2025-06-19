@@ -42,13 +42,15 @@ namespace GUFeur {
 
 
 		void getSwapchainSupport(SwapChainSupportDetails& supportDetails) { querySwapChainSupport(m_PhysicalDevice, supportDetails); };
-		const QueueFamilyIndices& findPhysicalQueueFamilies() { return findQueueFamilies(m_PhysicalDevice); };
+		QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(m_PhysicalDevice); };
 		VkCommandPool getCommandPool() { return m_CommandPool; }
 		VkQueue getGraphicQueue() { return m_GraphicsQueue; }
 		VkQueue getPresentQueue() { return m_PresentQueue; }
 
 		void createCommandPool();
 		void cleanCommandPool();
+
+		uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 	private:
 
 
@@ -80,7 +82,7 @@ namespace GUFeur {
 
 	private:
 		VkInstance m_Instance = VK_NULL_HANDLE;
-		VkDebugUtilsMessengerEXT m_Callback;
+		VkDebugUtilsMessengerEXT m_Callback = VK_NULL_HANDLE;
 
 		VkPhysicalDevice m_PhysicalDevice = VK_NULL_HANDLE;
 		VkDevice m_Device = VK_NULL_HANDLE;
@@ -104,7 +106,7 @@ namespace GUFeur {
 		const bool m_EnableValidationLayers = true;
 #endif
 
-		VkCommandPool m_CommandPool;
+		VkCommandPool m_CommandPool = VK_NULL_HANDLE;
 	};
 }
 

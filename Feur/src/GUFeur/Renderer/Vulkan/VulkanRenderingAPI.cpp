@@ -32,12 +32,15 @@ namespace GUFeur {
 		createDevice();
 		createSwapchain();
 		createCommandBuffers();
+
+		m_VertexBuffer = createVertexBuffer(vertices);
 	}
 
 	void VulkanRenderingAPI::cleanup()
 	{
 		vkDeviceWaitIdle(m_Device.device());
 
+		cleanVertexBuffer(m_VertexBuffer);
 		cleanCommandBuffers();
 		cleanSwapchain();
 		cleanDevice();
@@ -154,7 +157,9 @@ namespace GUFeur {
 		vkCmdBeginRenderPass(m_CommandBuffers[imageIndex], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
 		m_Swapchain.getGraphicPipeline()->bind(m_CommandBuffers[imageIndex]);
-		vkCmdDraw(m_CommandBuffers[imageIndex], 3, 1, 0, 0);
+
+		bindBuffer(m_VertexBuffer, m_CommandBuffers[imageIndex]);
+		vkCmdDraw(m_CommandBuffers[imageIndex], static_cast<uint32_t>(m_VertexBuffer->size()), 1, 0, 0);
 
 		vkCmdEndRenderPass(m_CommandBuffers[imageIndex]);
 		if (vkEndCommandBuffer(m_CommandBuffers[imageIndex]) != VK_SUCCESS) {
@@ -174,5 +179,27 @@ namespace GUFeur {
 		m_Device.createCommandPool();
 		m_Swapchain.recreateSwapchain(m_windowWidth, m_windowHeight, m_Swapchain.getSwapchain());
 		createCommandBuffers();
+	}
+
+	VertexBuffer* VulkanRenderingAPI::createVertexBuffer(std::vector<Vertex>& vertices)
+	{
+		VulkanVertexBuffer* buffer = new VulkanVertexBuffer{ vertices };
+
+		buffer->createBuffer(m_Device);
+
+		return dynamic_cast<VulkanVertexBuffer*>(buffer);
+	}
+
+	void VulkanRenderingAPI::cleanVertexBuffer(VertexBuffer* buffer)
+	{
+		VulkanVertexBuffer* b = dynamic_cast<VulkanVertexBuffer*>(buffer);
+		b->cleanBuffer(m_Device);
+		delete b;
+	}
+
+	void VulkanRenderingAPI::bindBuffer(VertexBuffer* buffer, VkCommandBuffer& commandBuffer)
+	{
+		VulkanVertexBuffer* b = dynamic_cast<VulkanVertexBuffer*>(buffer);
+		b->bindBuffer(commandBuffer);
 	}
 }

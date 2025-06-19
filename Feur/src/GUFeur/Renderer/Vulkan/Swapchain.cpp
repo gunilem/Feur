@@ -217,6 +217,15 @@ namespace GUFeur {
 		GraphicPipelineCreateInfo graphicPipelineInfo{};
 		GraphicPipeline::defaultGraphicPipelineConfigInfo(graphicPipelineInfo);
 
+
+		auto bindingDescription = VulkanVertexBuffer::getBindingDescription();
+		auto attributeDescriptions = VulkanVertexBuffer::getAttributeDescriptions();
+
+		graphicPipelineInfo.VertexInputInfo.vertexBindingDescriptionCount = 1;
+		graphicPipelineInfo.VertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+		graphicPipelineInfo.VertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+		graphicPipelineInfo.VertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
+
 		graphicPipelineInfo.RenderPass = m_RenderPass;
 
 		VkViewport viewport{};

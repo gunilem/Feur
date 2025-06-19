@@ -3,6 +3,8 @@
 
 #include "VulkanAllocator.h"
 
+#include "GUFeur/Renderer/Vulkan/VulkanVertexBuffer.h"
+
 namespace GUFeur {
 	GraphicPipeline::GraphicPipeline(Device& deviceRef, GraphicPipelineCreateInfo& pipelineCreateInfo)
 		: m_Device(deviceRef), m_PipelineCreateInfo(pipelineCreateInfo)
@@ -28,10 +30,6 @@ namespace GUFeur {
 	void GraphicPipeline::defaultGraphicPipelineConfigInfo(GraphicPipelineCreateInfo& configInfo)
 	{
 		configInfo.VertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-		configInfo.VertexInputInfo.vertexBindingDescriptionCount = 0;
-		configInfo.VertexInputInfo.pVertexBindingDescriptions = nullptr; // Optionnel
-		configInfo.VertexInputInfo.vertexAttributeDescriptionCount = 0;
-		configInfo.VertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optionnel
 
 		configInfo.InputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 		configInfo.InputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;

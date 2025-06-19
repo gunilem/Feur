@@ -3,6 +3,8 @@
 #include "Device.h"
 #include "Swapchain.h"
 
+#include "GUFeur/Renderer/Vulkan/VulkanVertexBuffer.h"
+
 
  
 namespace GUFeur {
@@ -26,6 +28,10 @@ namespace GUFeur {
 		void recordCommandBuffers(uint32_t imageIndex);
 		void recreateSwapchain();
 
+		virtual VertexBuffer* createVertexBuffer(std::vector<Vertex>& vertices) override;
+		virtual void cleanVertexBuffer(VertexBuffer* buffer) override;
+		virtual void bindBuffer(VertexBuffer* buffer, VkCommandBuffer& commandBuffer);
+
 
 #pragma region Creation
 		void createDevice();
@@ -47,6 +53,14 @@ namespace GUFeur {
 		std::vector<VkCommandBuffer> m_CommandBuffers;
 		uint32_t m_windowWidth, m_windowHeight;
 		bool m_WindowResized;
+
+		VertexBuffer* m_VertexBuffer;
+
+		std::vector < Vertex > vertices = {
+			{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+			{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+			{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+		};
 
 	};
 }

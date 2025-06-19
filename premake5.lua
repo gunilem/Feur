@@ -52,7 +52,6 @@ project "Feur"
     
     links{
         "GLFW",
-        "glm",
         "Vulkan-1"
     }
 

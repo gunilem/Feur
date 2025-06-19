@@ -19,6 +19,9 @@
     <Filter Include="GUFeur\Renderer">
       <UniqueIdentifier>{F9F0E6C8-657C-548D-6E8D-D781DA97B08D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUFeur\Renderer\Core">
+      <UniqueIdentifier>{F1980A67-DD27-9430-8646-A82B72B4A4D6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="GUFeur\Renderer\Vulkan">
       <UniqueIdentifier>{590CD080-4506-F9D2-2E73-8FE31A0C5F3F}</UniqueIdentifier>
     </Filter>
@@ -57,6 +60,9 @@
     </ClInclude>
     <ClInclude Include="src\GUFeur\Core\RenderingAPI.h">
       <Filter>GUFeur\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\Renderer\Core\VertexBuffer.h">
+      <Filter>GUFeur\Renderer\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\Device.h">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
@@ -111,6 +117,9 @@
     </ClCompile>
     <ClCompile Include="src\GUFeur\EntryPoint.cpp">
       <Filter>GUFeur</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\Renderer\Core\VertexBuffer.cpp">
+      <Filter>GUFeur\Renderer\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\Device.cpp">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
