@@ -5,6 +5,8 @@
 
 #include "GUFeur/Renderer/Vulkan/VulkanVertexBuffer.h"
 
+#include "VulkanMemoryAllocator.h"
+
 
  
 namespace GUFeur {
@@ -61,6 +63,8 @@ namespace GUFeur {
 			{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
 			{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
 		};
+
+		VulkanMemoryAllocator m_VertexBufferMemory;
 
 	};
 }

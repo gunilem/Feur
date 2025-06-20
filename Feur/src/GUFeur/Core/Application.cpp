@@ -5,6 +5,7 @@
 #include <crtdbg.h>  
 
 
+
 namespace GUFeur {
 
 	
@@ -13,7 +14,7 @@ namespace GUFeur {
 	Application* Application::m_Application = nullptr;;
 
 	Application::Application()
-		: m_AppWindow(800, 600, "Vulkan")
+		: m_AppWindow(800, 600, "Vulkan"), m_AppProperties{}
 	{
 		m_RenderingAPI = RenderingAPI::create();
 		m_Application = this;
@@ -42,8 +43,13 @@ namespace GUFeur {
 
 	void Application::mainLoop() {
 		while (!m_AppWindow.windowShouldClose()) {
+			auto start = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now());
 			m_AppWindow.PoolEvents();
 			drawFrame();
+			auto end = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now());
+
+			m_AppProperties.frameRate = 1000000 / std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+			m_AppProperties.DisplayInfo();
 		}
 	}
 

@@ -38,6 +38,7 @@ namespace GUFeur {
 		void cleanup();
 
 		VkDevice device() { return m_Device; }
+		VkPhysicalDevice physicalDevice() { return m_PhysicalDevice; }
 		VkInstance instance() { return m_Instance; }
 		VkSurfaceKHR surface() { return m_Surface; }
 

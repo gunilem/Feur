@@ -3,6 +3,7 @@
 #include "GUFeur/Renderer/Vulkan/Device.h"
 #include <vulkan/vulkan.h>
 
+#include "VulkanMemoryAllocator.h"
 
 namespace GUFeur {
 	class VulkanVertexBuffer : public VertexBuffer
@@ -34,8 +35,8 @@ namespace GUFeur {
 		}
 
 	public:
-		VulkanVertexBuffer();
-		VulkanVertexBuffer(std::vector<Vertex>& vertices);
+		VulkanVertexBuffer(VulkanMemoryAllocator& vertexBufferMemory);
+		VulkanVertexBuffer(std::vector<Vertex>& vertices, VulkanMemoryAllocator& vertexBufferMemory);
 		~VulkanVertexBuffer() {};
 
 		virtual void createVertexBuffer(Device& device);
@@ -44,11 +45,13 @@ namespace GUFeur {
 		virtual void bindBuffer(VkCommandBuffer& commandBuffer);
 
 	private:
-		void createBuffer(VkDeviceSize size, Device& device, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+		void createBuffer(VkDeviceSize size, Device& device, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, Allocation& bufferMemory);
 
 
 	private:
 		VkBuffer m_VertexBuffer; 
-		VkDeviceMemory m_VertexBufferMemory;
+		Allocation m_VertexBufferMemory;
+
+		VulkanMemoryAllocator& m_MemoryAllocator;
 	};
 }

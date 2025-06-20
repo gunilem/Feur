@@ -163,9 +163,10 @@
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\GraphicPipeline.h" />
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\Swapchain.h" />
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanAllocator.h" />
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanMemoryAllocator.h" />
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.h" />
-    <ClInclude Include="src\fpch.h" />
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.h" />
+    <ClInclude Include="src\fpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Feur\Core\Application.cpp" />
@@ -191,11 +192,12 @@
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\GraphicPipeline.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\Swapchain.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanAllocator.cpp" />
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanMemoryAllocator.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.cpp" />
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.cpp" />
     <ClCompile Include="src\fpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

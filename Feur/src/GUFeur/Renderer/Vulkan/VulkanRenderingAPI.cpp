@@ -13,7 +13,7 @@ namespace GUFeur {
 
 
 	VulkanRenderingAPI::VulkanRenderingAPI()
-		: m_Device{}, m_Swapchain{m_Device}
+		: m_Device{}, m_Swapchain{m_Device}, m_VertexBufferMemory(m_Device)
 	{
 		SetupAllocator();
 	}
@@ -41,6 +41,7 @@ namespace GUFeur {
 		vkDeviceWaitIdle(m_Device.device());
 
 		cleanVertexBuffer(m_VertexBuffer);
+		m_VertexBufferMemory.FreeMemory();
 		cleanCommandBuffers();
 		cleanSwapchain();
 		cleanDevice();
@@ -184,7 +185,7 @@ namespace GUFeur {
 
 	VertexBuffer* VulkanRenderingAPI::createVertexBuffer(std::vector<Vertex>& vertices)
 	{
-		VulkanVertexBuffer* buffer = new VulkanVertexBuffer{ vertices };
+		VulkanVertexBuffer* buffer = new VulkanVertexBuffer{ vertices, m_VertexBufferMemory };
 
 		buffer->createVertexBuffer(m_Device);
 

@@ -7,13 +7,13 @@
 namespace GUFeur {
 
 
-	VulkanVertexBuffer::VulkanVertexBuffer()
-		: VertexBuffer()
+	VulkanVertexBuffer::VulkanVertexBuffer(VulkanMemoryAllocator& vertexBufferMemory)
+		: VertexBuffer(), m_MemoryAllocator(vertexBufferMemory)
 	{
 	}
 
-	VulkanVertexBuffer::VulkanVertexBuffer(std::vector<Vertex>& vertices)
-		: VertexBuffer(vertices)
+	VulkanVertexBuffer::VulkanVertexBuffer(std::vector<Vertex>& vertices, VulkanMemoryAllocator& vertexBufferMemory)
+		: VertexBuffer(vertices), m_MemoryAllocator(vertexBufferMemory)
 	{
 	}
 
@@ -23,20 +23,20 @@ namespace GUFeur {
 
 
 		VkBuffer stagingBuffer;
-		VkDeviceMemory stagingBufferMemory;
+		Allocation stagingBufferMemory;
 		createBuffer(bufferSize, device, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
 
 		void* data;
-		vkMapMemory(device.device(), stagingBufferMemory, 0, bufferSize, 0, &data);
+		vkMapMemory(device.device(), stagingBufferMemory.memory, 0, bufferSize, 0, &data);
 		memcpy(data, m_Vertices.data(), (size_t)bufferSize);
-		vkUnmapMemory(device.device(), stagingBufferMemory);
+		vkUnmapMemory(device.device(), stagingBufferMemory.memory);
 
 		createBuffer(bufferSize, device, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_VertexBuffer, m_VertexBufferMemory);
 
 		copyBuffer(device, stagingBuffer, m_VertexBuffer, bufferSize);
 
 		vkDestroyBuffer(device.device(), stagingBuffer, GetCallback());
-		vkFreeMemory(device.device(), stagingBufferMemory, GetCallback());
+		m_MemoryAllocator.FreeBuffer(stagingBufferMemory, stagingBuffer);
 	}
 
 	void VulkanVertexBuffer::copyBuffer(Device& device, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size)
@@ -78,7 +78,7 @@ namespace GUFeur {
 	void VulkanVertexBuffer::cleanVertexBuffer(Device& device)
 	{
 		vkDestroyBuffer(device.device(), m_VertexBuffer, GetCallback());
-		vkFreeMemory(device.device(), m_VertexBufferMemory, GetCallback());
+		m_MemoryAllocator.FreeBuffer(m_VertexBufferMemory, m_VertexBuffer);
 	}
 
 	void VulkanVertexBuffer::bindBuffer(VkCommandBuffer& commandBuffer)
@@ -88,7 +88,7 @@ namespace GUFeur {
 		vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
 	}
 
-	void VulkanVertexBuffer::createBuffer(VkDeviceSize size, Device& device, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory)
+	void VulkanVertexBuffer::createBuffer(VkDeviceSize size, Device& device, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, Allocation& bufferMemory)
 	{
 		QueueFamilyIndices indices = device.findPhysicalQueueFamilies();
 		uint32_t queueIndices[2]{ indices.graphicsFamily.value(), indices.transferFamily.value() };
@@ -105,19 +105,9 @@ namespace GUFeur {
 			throw std::runtime_error("echec de la creation d'un vertex buffer!");
 		}
 
-		VkMemoryRequirements memRequirements;
-		vkGetBufferMemoryRequirements(device.device(), buffer, &memRequirements);
+		bufferMemory = m_MemoryAllocator.AllocateBuffer(size, buffer, usage, properties);
 
-		VkMemoryAllocateInfo allocInfo{};
-		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-		allocInfo.allocationSize = memRequirements.size;
-		allocInfo.memoryTypeIndex = device.findMemoryType(memRequirements.memoryTypeBits, properties);
-
-		if (vkAllocateMemory(device.device(), &allocInfo, GetCallback(), &bufferMemory) != VK_SUCCESS) {
-			throw std::runtime_error("echec d'une allocation de memoire!");
-		}
-
-		vkBindBufferMemory(device.device(), buffer, bufferMemory, 0);
+		vkBindBufferMemory(device.device(), buffer, bufferMemory.memory, bufferMemory.offset);
 	}
 
 }

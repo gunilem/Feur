@@ -76,7 +76,13 @@
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanAllocator.h">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
     </ClInclude>
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanMemoryAllocator.h">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClInclude>
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.h">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.h">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="src\fpch.h" />
@@ -133,7 +139,13 @@
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanAllocator.cpp">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
     </ClCompile>
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanMemoryAllocator.cpp">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClCompile>
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.cpp">
+      <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.cpp">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="src\fpch.cpp" />
