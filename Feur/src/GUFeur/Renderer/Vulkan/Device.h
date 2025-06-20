@@ -12,9 +12,10 @@ namespace GUFeur {
 	struct QueueFamilyIndices {
 		std::optional<uint32_t> graphicsFamily;
 		std::optional<uint32_t> presentFamily;
+		std::optional<uint32_t> transferFamily;
 
 		bool isComplete() {
-			return graphicsFamily.has_value() && presentFamily.has_value();
+			return graphicsFamily.has_value() && presentFamily.has_value() && transferFamily.has_value();
 		}
 	};
 
@@ -43,12 +44,15 @@ namespace GUFeur {
 
 		void getSwapchainSupport(SwapChainSupportDetails& supportDetails) { querySwapChainSupport(m_PhysicalDevice, supportDetails); };
 		QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(m_PhysicalDevice); };
-		VkCommandPool getCommandPool() { return m_CommandPool; }
+		VkCommandPool getTransferCommandPool() { return m_TransferCommandPool; }
+		VkCommandPool getGraphicsCommandPool() { return m_GraphicsCommandPool; }
 		VkQueue getGraphicQueue() { return m_GraphicsQueue; }
 		VkQueue getPresentQueue() { return m_PresentQueue; }
+		VkQueue getTransferQueue() { return m_TransferQueue; }
 
-		void createCommandPool();
-		void cleanCommandPool();
+		void createGraphicCommandPool();
+		void createTransferCommandPool();
+		void cleanCommandPools();
 
 		uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 	private:
@@ -91,6 +95,7 @@ namespace GUFeur {
 		VkSurfaceKHR m_Surface = VK_NULL_HANDLE;
 
 		VkQueue m_PresentQueue = VK_NULL_HANDLE;
+		VkQueue m_TransferQueue = VK_NULL_HANDLE;
 
 		const std::vector<const char*> m_ValidationLayers = {
 			"VK_LAYER_KHRONOS_validation"
@@ -106,7 +111,8 @@ namespace GUFeur {
 		const bool m_EnableValidationLayers = true;
 #endif
 
-		VkCommandPool m_CommandPool = VK_NULL_HANDLE;
+		VkCommandPool m_TransferCommandPool = VK_NULL_HANDLE;
+		VkCommandPool m_GraphicsCommandPool = VK_NULL_HANDLE;
 	};
 }
 

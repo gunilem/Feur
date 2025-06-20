@@ -100,7 +100,7 @@ namespace GUFeur {
 		VkCommandBufferAllocateInfo allocInfo{};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-		allocInfo.commandPool = m_Device.getCommandPool();
+		allocInfo.commandPool = m_Device.getGraphicsCommandPool();
 		allocInfo.commandBufferCount = static_cast<uint32_t>(m_CommandBuffers.size());
 
 		if (vkAllocateCommandBuffers(m_Device.device(), &allocInfo, m_CommandBuffers.data()) != VK_SUCCESS) {
@@ -113,8 +113,8 @@ namespace GUFeur {
 
 	void VulkanRenderingAPI::cleanCommandBuffers()
 	{
-		vkFreeCommandBuffers(m_Device.device(), m_Device.getCommandPool(), static_cast<uint32_t>(m_CommandBuffers.size()), m_CommandBuffers.data());
-		vkResetCommandPool(m_Device.device(), m_Device.getCommandPool(), 0);
+		vkFreeCommandBuffers(m_Device.device(), m_Device.getGraphicsCommandPool(), static_cast<uint32_t>(m_CommandBuffers.size()), m_CommandBuffers.data());
+		vkResetCommandPool(m_Device.device(), m_Device.getGraphicsCommandPool(), 0);
 		
 		m_CommandBuffers.clear();
 	}
@@ -174,9 +174,10 @@ namespace GUFeur {
 
 		vkDeviceWaitIdle(m_Device.device());
 
-		m_Device.cleanCommandPool();
+		m_Device.cleanCommandPools();
 
-		m_Device.createCommandPool();
+		m_Device.createGraphicCommandPool();
+		m_Device.createTransferCommandPool();
 		m_Swapchain.recreateSwapchain(m_windowWidth, m_windowHeight, m_Swapchain.getSwapchain());
 		createCommandBuffers();
 	}
@@ -185,7 +186,7 @@ namespace GUFeur {
 	{
 		VulkanVertexBuffer* buffer = new VulkanVertexBuffer{ vertices };
 
-		buffer->createBuffer(m_Device);
+		buffer->createVertexBuffer(m_Device);
 
 		return dynamic_cast<VulkanVertexBuffer*>(buffer);
 	}
@@ -193,7 +194,7 @@ namespace GUFeur {
 	void VulkanRenderingAPI::cleanVertexBuffer(VertexBuffer* buffer)
 	{
 		VulkanVertexBuffer* b = dynamic_cast<VulkanVertexBuffer*>(buffer);
-		b->cleanBuffer(m_Device);
+		b->cleanVertexBuffer(m_Device);
 		delete b;
 	}
 

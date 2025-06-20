@@ -52,12 +52,13 @@ namespace GUFeur {
 		createSurface();
 		pickPhysicalDevice();
 		createLogicalDevice();
-		createCommandPool();
+		createGraphicCommandPool();
+		createTransferCommandPool();
 	}
 
 	void Device::cleanup()
 	{
-		cleanCommandPool();
+		cleanCommandPools();
 		cleanLogicalDevice();
 		cleanPhysicalDevice();
 		cleanSurface();
@@ -159,7 +160,7 @@ namespace GUFeur {
 		QueueFamilyIndices indices = findQueueFamilies(m_PhysicalDevice);
 
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
-		std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };
+		std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value(), indices.transferFamily.value()};
 
 		float queuePriority = 1.0f;
 		for (uint32_t queueFamily : uniqueQueueFamilies) {
@@ -197,9 +198,10 @@ namespace GUFeur {
 
 		vkGetDeviceQueue(m_Device, indices.graphicsFamily.value(), 0, &m_GraphicsQueue);
 		vkGetDeviceQueue(m_Device, indices.presentFamily.value(), 0, &m_PresentQueue);
+		vkGetDeviceQueue(m_Device, indices.transferFamily.value(), 0, &m_TransferQueue);
 	}
 
-	void Device::createCommandPool()
+	void Device::createGraphicCommandPool()
 	{
 		QueueFamilyIndices queueFamilyIndices = findQueueFamilies(m_PhysicalDevice);
 
@@ -208,7 +210,21 @@ namespace GUFeur {
 		poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
 		poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 
-		if (vkCreateCommandPool(m_Device, &poolInfo, GetCallback(), &m_CommandPool) != VK_SUCCESS) {
+		if (vkCreateCommandPool(m_Device, &poolInfo, GetCallback(), &m_GraphicsCommandPool) != VK_SUCCESS) {
+			throw std::runtime_error("échec de la création d'une command pool!");
+		}
+	}
+
+	void Device::createTransferCommandPool()
+	{
+		QueueFamilyIndices queueFamilyIndices = findQueueFamilies(m_PhysicalDevice);
+
+		VkCommandPoolCreateInfo poolInfo{};
+		poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+		poolInfo.queueFamilyIndex = queueFamilyIndices.transferFamily.value();
+		poolInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
+
+		if (vkCreateCommandPool(m_Device, &poolInfo, GetCallback(), &m_TransferCommandPool) != VK_SUCCESS) {
 			throw std::runtime_error("échec de la création d'une command pool!");
 		}
 	}
@@ -307,6 +323,10 @@ namespace GUFeur {
 				indices.graphicsFamily = i;
 			}
 
+			if (queueFamily.queueFlags & VK_QUEUE_TRANSFER_BIT && !(queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)) {
+				indices.transferFamily = i;
+			}
+
 			VkBool32 presentSupport = false;
 			vkGetPhysicalDeviceSurfaceSupportKHR(device, i, m_Surface, &presentSupport);
 
@@ -364,9 +384,10 @@ namespace GUFeur {
 
 
 #pragma region Cleanup
-	void Device::cleanCommandPool()
+	void Device::cleanCommandPools()
 	{
-		vkDestroyCommandPool(m_Device, m_CommandPool, GetCallback());
+		vkDestroyCommandPool(m_Device, m_GraphicsCommandPool, GetCallback());
+		vkDestroyCommandPool(m_Device, m_TransferCommandPool, GetCallback());
 	}
 
 	void Device::cleanLogicalDevice()

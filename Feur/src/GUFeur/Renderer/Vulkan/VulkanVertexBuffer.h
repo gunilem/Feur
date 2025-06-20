@@ -38,14 +38,17 @@ namespace GUFeur {
 		VulkanVertexBuffer(std::vector<Vertex>& vertices);
 		~VulkanVertexBuffer() {};
 
-		virtual void createBuffer(Device& device);
-		virtual void cleanBuffer(Device& device);
+		virtual void createVertexBuffer(Device& device);
+		virtual void copyBuffer(Device& device, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+		virtual void cleanVertexBuffer(Device& device);
 		virtual void bindBuffer(VkCommandBuffer& commandBuffer);
+
+	private:
+		void createBuffer(VkDeviceSize size, Device& device, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 
 
 	private:
 		VkBuffer m_VertexBuffer; 
 		VkDeviceMemory m_VertexBufferMemory;
-
 	};
 }
