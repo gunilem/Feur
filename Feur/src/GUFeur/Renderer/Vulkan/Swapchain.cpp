@@ -269,8 +269,8 @@ namespace GUFeur {
 
 		VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 		pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-		pipelineLayoutInfo.setLayoutCount = 0;            // Optionnel
-		pipelineLayoutInfo.pSetLayouts = nullptr;         // Optionnel
+		pipelineLayoutInfo.setLayoutCount = 1;            // Optionnel
+		pipelineLayoutInfo.pSetLayouts = &m_DescriptorSetLayout;         // Optionnel
 		pipelineLayoutInfo.pushConstantRangeCount = 0;    // Optionnel
 		pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optionnel
 
