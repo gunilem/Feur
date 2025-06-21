@@ -10,7 +10,6 @@
 
  
 namespace GUFeur {
-	
 	class VulkanRenderingAPI : public RenderingAPI
 	{
 	public:
@@ -74,6 +73,7 @@ namespace GUFeur {
 		std::vector<uint16_t> m_Indices = {
 			0, 1, 2, 2, 3, 0
 		};
+
 
 		VulkanMemoryAllocator m_VertexBufferMemory;
 		VulkanMemoryAllocator m_IndexBufferMemory;

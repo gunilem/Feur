@@ -42,6 +42,7 @@ namespace GUFeur {
 		void createImageViews();
 
 		void createRenderPass();
+		void createDescriptorSetLayout();
 		void createGraphicsPipeline();
 		void createFramebuffers();
 
@@ -54,6 +55,7 @@ namespace GUFeur {
 
 		void cleanRenderPass();
 		void cleanGraphicsPipeline();
+		void cleanDescriptorSetLayout();
 		void cleanFramebuffers();
 
 		void cleanSyncObjects();
@@ -84,6 +86,7 @@ namespace GUFeur {
 		std::vector<VkFence> m_ImagesInFlight;
 
 		uint32_t m_CurrentFrame = 0;
+		VkDescriptorSetLayout m_DescriptorSetLayout;
 		VkPipelineLayout m_PipelineLayout;
 	};
 
