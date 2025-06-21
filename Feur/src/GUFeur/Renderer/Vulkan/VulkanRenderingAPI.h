@@ -30,9 +30,14 @@ namespace GUFeur {
 		void recordCommandBuffers(uint32_t imageIndex);
 		void recreateSwapchain();
 
-		virtual VertexBuffer* createVertexBuffer(std::vector<Vertex>& vertices) override;
-		virtual void cleanVertexBuffer(VertexBuffer* buffer) override;
-		virtual void bindBuffer(VertexBuffer* buffer, VkCommandBuffer& commandBuffer);
+		virtual Buffer<Vertex>* createVertexBuffer(std::vector<Vertex>& vertices) override;
+		virtual Buffer<uint16_t>* createIndexBuffer(std::vector<uint16_t>& vertices) override;
+
+		virtual void cleanVertexBuffer(Buffer<Vertex>* buffer) override;
+		virtual void cleanIndexBuffer(Buffer<uint16_t>* buffer) override;
+
+		template<typename T>
+		void bindBuffer(Buffer<T>* buffer, VkCommandBuffer& commandBuffer);
 
 
 #pragma region Creation
@@ -56,16 +61,22 @@ namespace GUFeur {
 		uint32_t m_windowWidth, m_windowHeight;
 		bool m_WindowResized;
 
-		VertexBuffer* m_VertexBuffer;
+		Buffer<Vertex>* m_VertexBuffer;
+		Buffer<uint16_t>* m_IndexBuffer;
 
-		std::vector < Vertex > vertices = {
-			{{1.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-			{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-			{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+		std::vector < Vertex > m_Vertices = {
+			{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+			{{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+			{{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+			{{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+		};
+
+		std::vector<uint16_t> m_Indices = {
+			0, 1, 2, 2, 3, 0
 		};
 
 		VulkanMemoryAllocator m_VertexBufferMemory;
-
+		VulkanMemoryAllocator m_IndexBufferMemory;
 	};
 }
 

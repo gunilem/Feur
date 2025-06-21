@@ -25,8 +25,10 @@ namespace GUFeur {
 
 		virtual void OnWindowResized(uint32_t windowWidth, uint32_t windowHeight) = 0;
 
-		virtual VertexBuffer* createVertexBuffer(std::vector<Vertex>& vertices) = 0;
-		virtual void cleanVertexBuffer(VertexBuffer* buffer) = 0;
+		virtual Buffer<Vertex>* createVertexBuffer(std::vector<Vertex>& vertices) = 0;
+		virtual Buffer<uint16_t>* createIndexBuffer(std::vector<uint16_t>& vertices) = 0;
+		virtual void cleanVertexBuffer(Buffer<Vertex>* buffer) = 0;
+		virtual void cleanIndexBuffer(Buffer<uint16_t>* buffer) = 0;
 	};
 }
 

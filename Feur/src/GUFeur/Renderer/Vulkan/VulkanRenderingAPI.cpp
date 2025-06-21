@@ -13,7 +13,7 @@ namespace GUFeur {
 
 
 	VulkanRenderingAPI::VulkanRenderingAPI()
-		: m_Device{}, m_Swapchain{m_Device}, m_VertexBufferMemory(m_Device)
+		: m_Device{}, m_Swapchain{m_Device}, m_VertexBufferMemory(m_Device), m_IndexBufferMemory(m_Device)
 	{
 		SetupAllocator();
 	}
@@ -33,7 +33,8 @@ namespace GUFeur {
 		createSwapchain();
 		createCommandBuffers();
 
-		m_VertexBuffer = createVertexBuffer(vertices);
+		m_VertexBuffer = createVertexBuffer(m_Vertices);
+		m_IndexBuffer = createIndexBuffer(m_Indices);
 	}
 
 	void VulkanRenderingAPI::cleanup()
@@ -42,6 +43,10 @@ namespace GUFeur {
 
 		cleanVertexBuffer(m_VertexBuffer);
 		m_VertexBufferMemory.FreeMemory();
+
+		cleanIndexBuffer(m_IndexBuffer);
+		m_IndexBufferMemory.FreeMemory();
+
 		cleanCommandBuffers();
 		cleanSwapchain();
 		cleanDevice();
@@ -160,7 +165,8 @@ namespace GUFeur {
 		m_Swapchain.getGraphicPipeline()->bind(m_CommandBuffers[imageIndex]);
 
 		bindBuffer(m_VertexBuffer, m_CommandBuffers[imageIndex]);
-		vkCmdDraw(m_CommandBuffers[imageIndex], static_cast<uint32_t>(m_VertexBuffer->size()), 1, 0, 0);
+		bindBuffer(m_IndexBuffer, m_CommandBuffers[imageIndex]);
+		vkCmdDrawIndexed(m_CommandBuffers[imageIndex], static_cast<uint32_t>(m_IndexBuffer->bufferDataCount()), 1, 0, 0, 0);
 
 		vkCmdEndRenderPass(m_CommandBuffers[imageIndex]);
 		if (vkEndCommandBuffer(m_CommandBuffers[imageIndex]) != VK_SUCCESS) {
@@ -183,25 +189,42 @@ namespace GUFeur {
 		createCommandBuffers();
 	}
 
-	VertexBuffer* VulkanRenderingAPI::createVertexBuffer(std::vector<Vertex>& vertices)
+	Buffer<Vertex>* VulkanRenderingAPI::createVertexBuffer(std::vector<Vertex>& vertices)
 	{
-		VulkanVertexBuffer* buffer = new VulkanVertexBuffer{ vertices, m_VertexBufferMemory };
+		VulkanBuffer<Vertex>* buffer = new VulkanBuffer<Vertex>{ BufferTypes::Vertex, vertices, m_VertexBufferMemory };
 
-		buffer->createVertexBuffer(m_Device);
+		buffer->InitBuffer(m_Device);
 
-		return dynamic_cast<VulkanVertexBuffer*>(buffer);
+		return dynamic_cast<VulkanBuffer<Vertex>*>(buffer);
 	}
 
-	void VulkanRenderingAPI::cleanVertexBuffer(VertexBuffer* buffer)
+	Buffer<uint16_t>* VulkanRenderingAPI::createIndexBuffer(std::vector<uint16_t>& vertices)
 	{
-		VulkanVertexBuffer* b = dynamic_cast<VulkanVertexBuffer*>(buffer);
-		b->cleanVertexBuffer(m_Device);
+		VulkanBuffer<uint16_t>* buffer = new VulkanBuffer<uint16_t>{ BufferTypes::Index, vertices, m_IndexBufferMemory };
+
+		buffer->InitBuffer(m_Device);
+
+		return dynamic_cast<VulkanBuffer<uint16_t>*>(buffer);
+	}
+
+	void VulkanRenderingAPI::cleanVertexBuffer(Buffer<Vertex>* buffer)
+	{
+		VulkanBuffer<Vertex>* b = dynamic_cast<VulkanBuffer<Vertex>*>(buffer);
+		b->cleanBuffer(m_Device);
 		delete b;
 	}
 
-	void VulkanRenderingAPI::bindBuffer(VertexBuffer* buffer, VkCommandBuffer& commandBuffer)
+	void VulkanRenderingAPI::cleanIndexBuffer(Buffer<uint16_t>* buffer)
 	{
-		VulkanVertexBuffer* b = dynamic_cast<VulkanVertexBuffer*>(buffer);
+		VulkanBuffer<uint16_t>* b = dynamic_cast<VulkanBuffer<uint16_t>*>(buffer);
+		b->cleanBuffer(m_Device);
+		delete b;
+	}
+
+	template<typename T>
+	void VulkanRenderingAPI::bindBuffer(Buffer<T>* buffer, VkCommandBuffer& commandBuffer)
+	{
+		VulkanBuffer<T>* b = dynamic_cast<VulkanBuffer<T>*>(buffer);
 		b->bindBuffer(commandBuffer);
 	}
 }
