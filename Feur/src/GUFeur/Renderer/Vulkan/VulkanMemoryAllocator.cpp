@@ -24,17 +24,16 @@ namespace GUFeur {
 		m_FreeList.resize((64 * 1024) / (size + alignment));
 
 		uint32_t currentOffset = 0;
-		VkDeviceSize alignedOffset;
 
 		for (auto& freeRange : m_FreeList) {
-			alignedOffset = currentOffset + alignment;
+			uint32_t align = alignment - (size % alignment);
+			currentOffset += size + (align % alignment);
 
-			if (alignedOffset + size > m_Size)
+			if (size + alignment > m_Size)
 				throw std::runtime_error("free List too big");
 
 			freeRange.offset = currentOffset;
-			freeRange.size = size + alignment;
-			currentOffset = alignedOffset + size;
+			freeRange.size = size + align;
 		}
 	}
 

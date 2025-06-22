@@ -312,9 +312,9 @@ namespace GUFeur {
 
 	void Swapchain::createSyncObjects()
 	{
-		m_ImageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
-		m_RenderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
-		m_InFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
+		m_ImageAvailableSemaphores.resize(m_SwapchainImageCount);
+		m_RenderFinishedSemaphores.resize(m_SwapchainImageCount);
+		m_InFlightFences.resize(m_SwapchainImageCount);
 		m_ImagesInFlight.resize(m_SwapchainImages.size(), VK_NULL_HANDLE);
 
 		VkSemaphoreCreateInfo semaphoreInfo{};
@@ -325,7 +325,7 @@ namespace GUFeur {
 		fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 		fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
-		for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+		for (size_t i = 0; i < m_SwapchainImageCount; i++) {
 			if (vkCreateSemaphore(m_Device.device(), &semaphoreInfo,GetCallback(), &m_ImageAvailableSemaphores[i]) != VK_SUCCESS ||
 				vkCreateSemaphore(m_Device.device(), &semaphoreInfo,GetCallback(), &m_RenderFinishedSemaphores[i]) != VK_SUCCESS ||
 				vkCreateFence(m_Device.device(), &fenceInfo,GetCallback(), &m_InFlightFences[i]) != VK_SUCCESS) {
@@ -381,7 +381,7 @@ namespace GUFeur {
 
 	void Swapchain::cleanSyncObjects()
 	{
-		for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+		for (size_t i = 0; i < m_SwapchainImageCount; i++) {
 			vkDestroySemaphore(m_Device.device(), m_RenderFinishedSemaphores[i],GetCallback());
 			vkDestroySemaphore(m_Device.device(), m_ImageAvailableSemaphores[i],GetCallback());
 			vkDestroyFence(m_Device.device(), m_InFlightFences[i],GetCallback());
@@ -400,26 +400,28 @@ namespace GUFeur {
 
 	VkResult Swapchain::submitCommandBuffer(const VkCommandBuffer* buffers, uint32_t* imageIndex)
 	{
+		
 		if (m_ImagesInFlight[*imageIndex] != VK_NULL_HANDLE) {
 			vkWaitForFences(m_Device.device(), 1, &m_ImagesInFlight[*imageIndex], VK_TRUE, UINT64_MAX);
 		}
 		m_ImagesInFlight[*imageIndex] = m_InFlightFences[m_CurrentFrame];
 
+
+		VkSemaphore aquireSemaphores = m_ImageAvailableSemaphores[m_CurrentFrame];
+		VkSemaphore signalSemaphores = m_RenderFinishedSemaphores[m_CurrentFrame];
+		VkSwapchainKHR swapChains = m_Swapchain;
+
 		VkSubmitInfo submitInfo = {};
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 
-		VkSemaphore waitSemaphores[] = { m_ImageAvailableSemaphores[m_CurrentFrame] };
-		VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+		VkPipelineStageFlags waitStages =  VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT ;
 		submitInfo.waitSemaphoreCount = 1;
-		submitInfo.pWaitSemaphores = waitSemaphores;
-		submitInfo.pWaitDstStageMask = waitStages;
-
+		submitInfo.pWaitSemaphores = &aquireSemaphores;
+		submitInfo.pWaitDstStageMask = &waitStages;
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = buffers;
-
-		VkSemaphore signalSemaphores[] = { m_RenderFinishedSemaphores[m_CurrentFrame] };
 		submitInfo.signalSemaphoreCount = 1;
-		submitInfo.pSignalSemaphores = signalSemaphores;
+		submitInfo.pSignalSemaphores = &signalSemaphores;
 
 		vkResetFences(m_Device.device(), 1, &m_InFlightFences[m_CurrentFrame]);
 		if (vkQueueSubmit(m_Device.getGraphicQueue(), 1, &submitInfo, m_InFlightFences[m_CurrentFrame]) !=
@@ -429,19 +431,14 @@ namespace GUFeur {
 
 		VkPresentInfoKHR presentInfo = {};
 		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-
 		presentInfo.waitSemaphoreCount = 1;
-		presentInfo.pWaitSemaphores = signalSemaphores;
-
-		VkSwapchainKHR swapChains[] = { m_Swapchain };
+		presentInfo.pWaitSemaphores = &signalSemaphores;
 		presentInfo.swapchainCount = 1;
-		presentInfo.pSwapchains = swapChains;
-
+		presentInfo.pSwapchains = &swapChains;
 		presentInfo.pImageIndices = imageIndex;
 
 		auto result = vkQueuePresentKHR(m_Device.getPresentQueue(), &presentInfo);
-
-		m_CurrentFrame = (m_CurrentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
+		m_CurrentFrame = (m_CurrentFrame + 1) % m_SwapchainImageCount;
 
 		return result;
 	}

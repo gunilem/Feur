@@ -37,7 +37,7 @@ void VKAPI_PTR MyFree(
 
 	auto* state = static_cast<MyAllocatorState*>(pUserData);
 	state->totalAllocated--;
-	std::printf("[MyFree] Total: %zu\n", state->totalAllocated);
+	//std::printf("[MyFree] Total: %zu\n", state->totalAllocated);
 	free(pMemory);
 }
 

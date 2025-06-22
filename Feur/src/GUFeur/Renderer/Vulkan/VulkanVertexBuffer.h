@@ -95,7 +95,6 @@ namespace GUFeur {
 
 		copyBuffer(device, stagingBuffer, m_Buffer, bufferSize);
 
-		vkDestroyBuffer(device.device(), stagingBuffer, GetCallback());
 		m_MemoryAllocator.FreeBuffer(stagingBufferMemory, stagingBuffer);
 	}
 
@@ -139,7 +138,6 @@ namespace GUFeur {
 	template<typename T>
 	inline void VulkanBuffer<T>::cleanBuffer(Device& device)
 	{
-		vkDestroyBuffer(device.device(), m_Buffer, GetCallback());
 		m_MemoryAllocator.FreeBuffer(m_BufferAllocation, m_Buffer);
 	}
 
