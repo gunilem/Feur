@@ -1,4 +1,4 @@
-#include "fpch.h"
+ï»¿#include "fpch.h"
 #include "Swapchain.h"
 
 #include <cstdint> // uint32_t
@@ -9,6 +9,12 @@
 
 #include "VulkanAllocator.h"
 
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include <chrono>
+
 
 #undef max
 
@@ -18,7 +24,7 @@ const uint32_t HEIGHT = 600;
 
 namespace GUFeur {
 	Swapchain::Swapchain(Device& deviceRef)
-		: m_Device(deviceRef)
+		: m_Device(deviceRef), m_UniformBufferMemory(m_Device)
 	{
 
 	}
@@ -29,9 +35,15 @@ namespace GUFeur {
 		createImageViews();
 		createRenderPass();
 		createDescriptorSetLayout();
+
+		createUniformBuffers(m_UniformBuffers);
+		createDescriptorPool();
+		createDescriptorSets();
+
 		createGraphicsPipeline();
 		createFramebuffers();
 		createSyncObjects();
+
 	}
 
 	void Swapchain::cleanup()
@@ -39,10 +51,14 @@ namespace GUFeur {
 		cleanSyncObjects();
 		cleanFramebuffers();
 		cleanGraphicsPipeline();
-		cleanDescriptorSetLayout();
 		cleanRenderPass();
 		cleanImageViews();
 		cleanSwapChain();
+
+		cleanUniformBuffers(m_UniformBuffers);
+		m_UniformBufferMemory.FreeMemory();
+		cleanDescriptorPool();
+		cleanDescriptorSetLayout();
 	}
 
 	VkSurfaceFormatKHR Swapchain::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
@@ -81,6 +97,32 @@ namespace GUFeur {
 
 			return actualExtent;
 		}
+	}
+
+	void Swapchain::updateUniformBuffer(uint32_t currentImage)
+	{
+		static auto startTime = std::chrono::high_resolution_clock::now();
+
+		auto currentTime = std::chrono::high_resolution_clock::now();
+		float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+
+		UniformBufferObject ubo{};
+		ubo.model = glm::mat4(1.0f);
+		ubo.view = glm::mat4(1.0f);
+
+		ubo.proj = glm::ortho(
+			0.0f, (float)getExtents().width,
+			0.0f, (float)getExtents().height,
+			-1.0f, 1.0f
+		);
+
+		VulkanBuffer<UniformBufferObject>* buffer = dynamic_cast<VulkanBuffer<UniformBufferObject>*>(m_UniformBuffers[currentImage]);
+		buffer->MoveData(m_Device, &ubo, 1);
+	}
+
+	void Swapchain::bindDescriptorSet(VkCommandBuffer commandBuffer, uint32_t imageIndex)
+	{
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_PipelineLayout, 0, 1, &m_DescriptorSets[imageIndex], 0, nullptr);
 	}
 
 
@@ -134,7 +176,7 @@ namespace GUFeur {
 
 
 		if (vkCreateSwapchainKHR(m_Device.device(), &createInfo,GetCallback(), &m_Swapchain) != VK_SUCCESS) {
-			throw std::runtime_error("échec de la création de la swap chain!");
+			throw std::runtime_error("Ã©chec de la crÃ©ation de la swap chain!");
 		}
 
 		vkGetSwapchainImagesKHR(m_Device.device(), m_Swapchain, &m_SwapchainImageCount, nullptr);
@@ -164,7 +206,7 @@ namespace GUFeur {
 			createInfo.subresourceRange.layerCount = 1;
 
 			if (vkCreateImageView(m_Device.device(), &createInfo,GetCallback(), &m_SwapchainImageViews[i]) != VK_SUCCESS) {
-				throw std::runtime_error("échec de la création d'une image view!");
+				throw std::runtime_error("Ã©chec de la crÃ©ation d'une image view!");
 			}
 		}
 	}
@@ -209,7 +251,7 @@ namespace GUFeur {
 
 
 		if (vkCreateRenderPass(m_Device.device(), &renderPassInfo,GetCallback(), &m_RenderPass) != VK_SUCCESS) {
-			throw std::runtime_error("échec de la création de la render pass!");
+			throw std::runtime_error("Ã©chec de la crÃ©ation de la render pass!");
 		}
 	}
 
@@ -227,7 +269,7 @@ namespace GUFeur {
 		layoutInfo.bindingCount = 1;
 		layoutInfo.pBindings = &uboLayoutBinding;
 
-		if (vkCreateDescriptorSetLayout(m_Device.device(), &layoutInfo, nullptr, &m_DescriptorSetLayout) != VK_SUCCESS) {
+		if (vkCreateDescriptorSetLayout(m_Device.device(), &layoutInfo, GetCallback(), &m_DescriptorSetLayout) != VK_SUCCESS) {
 			throw std::runtime_error("echec de la creation d'un set de descripteurs!");
 		}
 	}
@@ -275,8 +317,8 @@ namespace GUFeur {
 		pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optionnel
 
 
-		if (vkCreatePipelineLayout(m_Device.device(), &pipelineLayoutInfo,GetCallback(), &m_PipelineLayout) != VK_SUCCESS) {
-			throw std::runtime_error("échec de la création du pipeline layout!");
+		if (vkCreatePipelineLayout(m_Device.device(), &pipelineLayoutInfo, GetCallback(), &m_PipelineLayout) != VK_SUCCESS) {
+			throw std::runtime_error("Ã©chec de la crÃ©ation du pipeline layout!");
 		}
 
 		graphicPipelineInfo.PipelineLayout = m_PipelineLayout;
@@ -305,7 +347,7 @@ namespace GUFeur {
 			framebufferInfo.layers = 1;
 
 			if (vkCreateFramebuffer(m_Device.device(), &framebufferInfo,GetCallback(), &m_SwapchainFramebuffers[i]) != VK_SUCCESS) {
-				throw std::runtime_error("échec de la création d'un framebuffer!");
+				throw std::runtime_error("Ã©chec de la crÃ©ation d'un framebuffer!");
 			}
 		}
 	}
@@ -330,8 +372,76 @@ namespace GUFeur {
 				vkCreateSemaphore(m_Device.device(), &semaphoreInfo,GetCallback(), &m_RenderFinishedSemaphores[i]) != VK_SUCCESS ||
 				vkCreateFence(m_Device.device(), &fenceInfo,GetCallback(), &m_InFlightFences[i]) != VK_SUCCESS) {
 
-				throw std::runtime_error("échec de la création des objets de synchronisation pour une frame!");
+				throw std::runtime_error("Ã©chec de la crÃ©ation des objets de synchronisation pour une frame!");
 			}
+		}
+	}
+	void Swapchain::createUniformBuffers(std::vector<Buffer<UniformBufferObject>*>& buffers)
+	{
+		VkDeviceSize bufferSize = sizeof(UniformBufferObject);
+
+		buffers.resize(m_SwapchainImageCount);
+
+		UniformBufferObject obj{};
+
+		for (size_t i = 0; i < m_SwapchainImageCount; i++) {
+			VulkanBuffer<UniformBufferObject>* buffer = new VulkanBuffer<UniformBufferObject>{ BufferTypes::Uniform, &obj, 1, m_UniformBufferMemory };
+			buffer->InitBuffer(m_Device);
+			buffers[i] = buffer;
+		}
+	}
+	void Swapchain::createDescriptorPool()
+	{
+		VkDescriptorPoolSize poolSize{};
+		poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		poolSize.descriptorCount = static_cast<uint32_t>(m_SwapchainImageCount);
+
+		VkDescriptorPoolCreateInfo poolInfo{};
+		poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+		poolInfo.poolSizeCount = 1;
+		poolInfo.pPoolSizes = &poolSize;
+		poolInfo.maxSets = static_cast<uint32_t>(m_SwapchainImageCount);
+
+		if (vkCreateDescriptorPool(m_Device.device(), &poolInfo, GetCallback(), &m_DescriptorPool) != VK_SUCCESS) {
+			throw std::runtime_error("echec de la creation de la pool de descripteurs!");
+		}
+	}
+
+	void Swapchain::createDescriptorSets()
+	{
+		std::vector<VkDescriptorSetLayout> layouts(m_SwapchainImageCount, m_DescriptorSetLayout);
+		VkDescriptorSetAllocateInfo allocInfo{};
+		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+		allocInfo.descriptorPool = m_DescriptorPool;
+		allocInfo.descriptorSetCount = static_cast<uint32_t>(m_SwapchainImageCount);
+		allocInfo.pSetLayouts = layouts.data();
+
+		m_DescriptorSets.resize(m_SwapchainImageCount);
+		if (vkAllocateDescriptorSets(m_Device.device(), &allocInfo, m_DescriptorSets.data()) != VK_SUCCESS) {
+			throw std::runtime_error("echec de l'allocation d'un set de descripteurs!");
+		}
+
+		for (size_t i = 0; i < m_SwapchainImageCount; i++) {
+
+			VulkanBuffer<UniformBufferObject>* b = dynamic_cast<VulkanBuffer<UniformBufferObject>*>(m_UniformBuffers[i]);
+
+			VkDescriptorBufferInfo bufferInfo{};
+			bufferInfo.buffer = b->getBuffer();
+			bufferInfo.offset = 0;
+			bufferInfo.range = sizeof(UniformBufferObject);
+
+			VkWriteDescriptorSet descriptorWrite{};
+			descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			descriptorWrite.dstSet = m_DescriptorSets[i];
+			descriptorWrite.dstBinding = 0;
+			descriptorWrite.dstArrayElement = 0;
+			descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+			descriptorWrite.descriptorCount = 1;
+			descriptorWrite.pBufferInfo = &bufferInfo;
+			descriptorWrite.pImageInfo = nullptr; // Optionnel
+			descriptorWrite.pTexelBufferView = nullptr; // Optionnel
+
+			vkUpdateDescriptorSets(m_Device.device(), 1, &descriptorWrite, 0, nullptr);
 		}
 	}
 #pragma endregion
@@ -367,7 +477,7 @@ namespace GUFeur {
 
 	void Swapchain::cleanDescriptorSetLayout()
 	{
-		vkDestroyDescriptorSetLayout(m_Device.device(), m_DescriptorSetLayout, nullptr);
+		vkDestroyDescriptorSetLayout(m_Device.device(), m_DescriptorSetLayout, GetCallback());
 	}
 
 	void Swapchain::cleanFramebuffers()
@@ -385,6 +495,26 @@ namespace GUFeur {
 			vkDestroySemaphore(m_Device.device(), m_RenderFinishedSemaphores[i],GetCallback());
 			vkDestroySemaphore(m_Device.device(), m_ImageAvailableSemaphores[i],GetCallback());
 			vkDestroyFence(m_Device.device(), m_InFlightFences[i],GetCallback());
+		}
+	}
+
+	void Swapchain::cleanDescriptorSets()
+	{
+		vkDestroyDescriptorSetLayout(m_Device.device(), m_DescriptorSetLayout, GetCallback());
+	}
+
+	void Swapchain::cleanDescriptorPool()
+	{
+		vkDestroyDescriptorPool(m_Device.device(), m_DescriptorPool, GetCallback());
+	}
+
+	void Swapchain::cleanUniformBuffers(std::vector<Buffer<UniformBufferObject>*>& buffers)
+	{
+		for (int i = m_SwapchainImageCount - 1; i >= 0; i--)
+		{
+			VulkanBuffer<UniformBufferObject>* b = dynamic_cast<VulkanBuffer<UniformBufferObject>*>(buffers[i]);
+			b->cleanBuffer(m_Device);
+			delete b;
 		}
 	}
 
@@ -453,7 +583,9 @@ namespace GUFeur {
 		cleanRenderPass();
 		cleanImageViews();
 
+
 		createSwapChain(newWidth, newHeight);
+
 		createImageViews();
 		createRenderPass();
 		createGraphicsPipeline();

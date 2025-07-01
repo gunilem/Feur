@@ -1,12 +1,12 @@
 #pragma once
 #include "GUFeur/Core/RenderingAPI.h"
-#include "Device.h"
-#include "Swapchain.h"
-
-#include "GUFeur/Renderer/Vulkan/VulkanVertexBuffer.h"
 
 #include "VulkanMemoryAllocator.h"
+#include "VulkanVertexBuffer.h"
 
+
+#include "Swapchain.h"
+#include "Device.h"
 
  
 namespace GUFeur {
@@ -30,7 +30,7 @@ namespace GUFeur {
 		void recreateSwapchain();
 
 		virtual Buffer<Vertex>* createVertexBuffer(std::vector<Vertex>& vertices) override;
-		virtual Buffer<uint16_t>* createIndexBuffer(std::vector<uint16_t>& vertices) override;
+		virtual Buffer<uint16_t>* createIndexBuffer(std::vector<uint16_t>& indices) override;
 
 		virtual void cleanVertexBuffer(Buffer<Vertex>* buffer) override;
 		virtual void cleanIndexBuffer(Buffer<uint16_t>* buffer) override;
@@ -64,10 +64,10 @@ namespace GUFeur {
 		Buffer<uint16_t>* m_IndexBuffer;
 
 		std::vector < Vertex > m_Vertices = {
-			{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-			{{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-			{{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-			{{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+			{{0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}},
+			{{800.f, 0.0f}, {0.0f, 1.0f, 0.0f}},
+			{{800.f, 1000.0f}, {0.0f, 0.0f, 1.0f}},
+			{{0.0f, 1000.0f}, {1.0f, 1.0f, 1.0f}}
 		};
 
 		std::vector<uint16_t> m_Indices = {

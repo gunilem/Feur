@@ -3,6 +3,8 @@
 
 #include "VulkanAllocator.h"
 
+#undef max
+
 namespace GUFeur {
 	MemoryBlock::MemoryBlock(Device& device)
 		: m_Device(device)

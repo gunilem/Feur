@@ -1,7 +1,6 @@
 #pragma once
 
-#include "VulkanRenderingAPI.h"
-
+#include <vulkan/vulkan.h>
 
 void* VKAPI_PTR MyAlloc(
 	void* pUserData,

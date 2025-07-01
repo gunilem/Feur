@@ -2,10 +2,20 @@
 
 #include "GUFeur/Core/Core.h"
 
-#include "Device.h"
+#include "VulkanMemoryAllocator.h"
+#include "VulkanVertexBuffer.h"
 #include "GraphicPipeline.h"
+#include "Device.h"
+
+
 
 namespace GUFeur {
+
+	struct UniformBufferObject {
+		glm::mat4 model;
+		glm::mat4 view;
+		glm::mat4 proj;
+	};
 
 	class Swapchain
 	{
@@ -29,11 +39,14 @@ namespace GUFeur {
 		VkSwapchainKHR getSwapchain() { return m_Swapchain; }
 
 		void recreateSwapchain(uint32_t newWidth, uint32_t newHeight, VkSwapchainKHR oldSwapchain);
+		void updateUniformBuffer(uint32_t currentImage);
+		void bindDescriptorSet(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 
 	private:
 		VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 		VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 		VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, uint32_t newWidth, uint32_t newHeight);
+
 
 #pragma region Creation
 		void createSwapChain(uint32_t width, uint32_t height);
@@ -45,6 +58,10 @@ namespace GUFeur {
 		void createFramebuffers();
 
 		void createSyncObjects();
+
+		void createUniformBuffers(std::vector<Buffer<UniformBufferObject>*>& buffers);
+		void createDescriptorPool();
+		void createDescriptorSets();
 #pragma endregion
 
 #pragma region Cleanup
@@ -57,6 +74,10 @@ namespace GUFeur {
 		void cleanFramebuffers();
 
 		void cleanSyncObjects();
+
+		void cleanDescriptorSets();
+		void cleanDescriptorPool();
+		void cleanUniformBuffers(std::vector<Buffer<UniformBufferObject>*>& buffers);
 #pragma endregion
 
 
@@ -86,6 +107,13 @@ namespace GUFeur {
 		uint32_t m_CurrentFrame = 0;
 		VkDescriptorSetLayout m_DescriptorSetLayout;
 		VkPipelineLayout m_PipelineLayout;
+
+		VkDescriptorPool m_DescriptorPool;
+		std::vector<VkDescriptorSet> m_DescriptorSets;
+
+
+		std::vector<Buffer<UniformBufferObject>*> m_UniformBuffers;
+		VulkanMemoryAllocator m_UniformBufferMemory;
 	};
 
 }

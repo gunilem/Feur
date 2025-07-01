@@ -7,7 +7,8 @@ namespace GUFeur {
 	enum class BufferTypes {
 		None = 0,
 		Vertex = 1,
-		Index = 2
+		Index = 2,
+		Uniform = 3
 	};
 
 	struct Vertex {
@@ -18,7 +19,7 @@ namespace GUFeur {
 	template<typename T>
 	class Buffer {
 	public:
-		Buffer(BufferTypes type, std::vector<T>& data);
+		Buffer(BufferTypes type, T* dataPtr, size_t count);
 		virtual ~Buffer() {};
 
 		/*
@@ -27,32 +28,24 @@ namespace GUFeur {
 		VertexBuffer& operator=(VertexBuffer&& other);
 		VertexBuffer& operator=(const VertexBuffer& other);
 		*/
-		void setData(std::vector<T>& data);
 
 		size_t bufferDataCount() { return m_DataCount; }
 
-		const std::vector<T>& bufferData() { return m_Data; }
+		T* bufferData() { return m_DataPtr; }
 
 		BufferTypes getType() { return m_BufferType; }
 
 	protected:
 		size_t m_DataCount;
-		std::vector<T> m_Data;
+		T* m_DataPtr;
 
 		BufferTypes m_BufferType;
 	};
 
 	template<typename T>
-	inline Buffer<T>::Buffer(BufferTypes type, std::vector<T>& data)
-		: m_BufferType(type), m_Data{data}, m_DataCount{ data.size()}
+	inline Buffer<T>::Buffer(BufferTypes type, T* dataPtr, size_t count)
+		: m_BufferType(type), m_DataPtr{ dataPtr }, m_DataCount{ count }
 	{
-	}
-
-	template<typename T>
-	inline void Buffer<T>::setData(std::vector<T>& data)
-	{
-		m_Data = data;
-		m_DataCount = m_Data.size();
 	}
 
 }

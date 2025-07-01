@@ -38,13 +38,17 @@ namespace GUFeur {
 		}
 
 	public:
-		VulkanBuffer(BufferTypes type, std::vector<T>& data, VulkanMemoryAllocator& memoryAllocation);
+		VulkanBuffer(BufferTypes type, T* dataptr, size_t count, VulkanMemoryAllocator& memoryAllocation);
 		~VulkanBuffer() {};
 
 		virtual void InitBuffer(Device& device);
 		virtual void copyBuffer(Device& device, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 		virtual void cleanBuffer(Device& device);
 		virtual void bindBuffer(VkCommandBuffer& commandBuffer);
+
+		virtual void MoveData(Device& device, T* dataptr, size_t count);
+
+		virtual VkBuffer getBuffer();
 
 	private:
 		void createBuffer(VkDeviceSize size, Device& device, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, Allocation& bufferMemory);
@@ -60,8 +64,8 @@ namespace GUFeur {
 	};
 
 	template<typename T>
-	inline VulkanBuffer<T>::VulkanBuffer(BufferTypes type, std::vector<T>& data, VulkanMemoryAllocator& memoryAllocation)
-		: m_MemoryAllocator(memoryAllocation), Buffer<T>(type, data)
+	inline VulkanBuffer<T>::VulkanBuffer(BufferTypes type, T* dataptr, size_t count, VulkanMemoryAllocator& memoryAllocation)
+		: m_MemoryAllocator(memoryAllocation), Buffer<T>(type, dataptr, count)
 	{
 		switch (type) {
 		case BufferTypes::Vertex:
@@ -69,6 +73,9 @@ namespace GUFeur {
 			break;
 		case BufferTypes::Index:
 			m_BufferTypeFlag = VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+			break;
+		case BufferTypes::Uniform:
+			m_BufferTypeFlag = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
 			break;
 		case BufferTypes::None:
 			throw std::exception("No type initialized for a Vulkan Buffer");
@@ -81,21 +88,11 @@ namespace GUFeur {
 	{
 		VkDeviceSize bufferSize = sizeof(bufferData()[0]) * bufferDataCount();
 
+		createBuffer(bufferSize, device, VK_BUFFER_USAGE_TRANSFER_DST_BIT | m_BufferTypeFlag, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, m_Buffer, m_BufferAllocation);
 
-		VkBuffer stagingBuffer;
-		Allocation stagingBufferMemory;
-		createBuffer(bufferSize, device, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+		int value = bufferDataCount();
 
-		void* data;
-		vkMapMemory(device.device(), stagingBufferMemory.memory, 0, bufferSize, 0, &data);
-		memcpy(data, bufferData().data(), (size_t)bufferSize);
-		vkUnmapMemory(device.device(), stagingBufferMemory.memory);
-
-		createBuffer(bufferSize, device, VK_BUFFER_USAGE_TRANSFER_DST_BIT | m_BufferTypeFlag, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_Buffer, m_BufferAllocation);
-
-		copyBuffer(device, stagingBuffer, m_Buffer, bufferSize);
-
-		m_MemoryAllocator.FreeBuffer(stagingBufferMemory, stagingBuffer);
+		MoveData(device, bufferData(), bufferDataCount());
 	}
 
 	template<typename T>
@@ -154,16 +151,55 @@ namespace GUFeur {
 				vkCmdBindVertexBuffers(commandBuffer, 0, 1, buffers, offsets);
 				break;
 			}
+			
 			case BufferTypes::Index:
+			{
 
 				vkCmdBindIndexBuffer(commandBuffer, m_Buffer, 0, VK_INDEX_TYPE_UINT16);
 				break;
+			}
+
+			case BufferTypes::Uniform:
+			{
+
+				break;
+			}
 			case BufferTypes::None:
+			{
 				throw std::exception("No type initialized for a Vulkan Buffer");
 				break;
+			}
 		}
 
 	}
+
+	template<typename T>
+	inline void VulkanBuffer<T>::MoveData(Device& device, T* dataptr, size_t count)
+	{
+		if (count <= 0) return;
+
+		VkDeviceSize bufferSize = sizeof(*dataptr) * count;
+
+		VkBuffer stagingBuffer;
+		Allocation stagingBufferMemory;
+		createBuffer(bufferSize, device, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+
+		void* data;
+		vkMapMemory(device.device(), stagingBufferMemory.memory, stagingBufferMemory.offset, bufferSize, 0, &data);
+		memcpy(data, dataptr, (size_t)bufferSize);
+		vkUnmapMemory(device.device(), stagingBufferMemory.memory);
+
+		copyBuffer(device, stagingBuffer, m_Buffer, bufferSize);
+
+		m_MemoryAllocator.FreeBuffer(stagingBufferMemory, stagingBuffer);
+	}
+
+	template<typename T>
+	inline VkBuffer VulkanBuffer<T>::getBuffer()
+	{
+		return m_Buffer;
+	}
+
 
 	template<typename T>
 	inline void VulkanBuffer<T>::createBuffer(VkDeviceSize size, Device& device, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, Allocation& bufferAllocation)

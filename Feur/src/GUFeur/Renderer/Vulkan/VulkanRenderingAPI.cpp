@@ -9,6 +9,8 @@
 #include "VulkanAllocator.h"
 
 
+
+
 namespace GUFeur {
 
 
@@ -58,6 +60,8 @@ namespace GUFeur {
 
 		uint32_t imageIndex = 0;
 		VkResult result = m_Swapchain.acquireNextImage(&imageIndex);
+
+		m_Swapchain.updateUniformBuffer(imageIndex);
 
 		if (result == VK_ERROR_OUT_OF_DATE_KHR) {
 			recreateSwapchain();
@@ -166,6 +170,8 @@ namespace GUFeur {
 
 		bindBuffer(m_VertexBuffer, m_CommandBuffers[imageIndex]);
 		bindBuffer(m_IndexBuffer, m_CommandBuffers[imageIndex]);
+
+		m_Swapchain.bindDescriptorSet(m_CommandBuffers[imageIndex], imageIndex);
 		vkCmdDrawIndexed(m_CommandBuffers[imageIndex], static_cast<uint32_t>(m_IndexBuffer->bufferDataCount()), 1, 0, 0, 0);
 
 		vkCmdEndRenderPass(m_CommandBuffers[imageIndex]);
@@ -186,21 +192,22 @@ namespace GUFeur {
 		m_Device.createGraphicCommandPool();
 		m_Device.createTransferCommandPool();
 		m_Swapchain.recreateSwapchain(m_windowWidth, m_windowHeight, m_Swapchain.getSwapchain());
+
 		createCommandBuffers();
 	}
 
 	Buffer<Vertex>* VulkanRenderingAPI::createVertexBuffer(std::vector<Vertex>& vertices)
 	{
-		VulkanBuffer<Vertex>* buffer = new VulkanBuffer<Vertex>{ BufferTypes::Vertex, vertices, m_VertexBufferMemory };
+		VulkanBuffer<Vertex>* buffer = new VulkanBuffer<Vertex>{ BufferTypes::Vertex, vertices.data(), vertices.size(), m_VertexBufferMemory};
 
 		buffer->InitBuffer(m_Device);
 
 		return dynamic_cast<VulkanBuffer<Vertex>*>(buffer);
 	}
 
-	Buffer<uint16_t>* VulkanRenderingAPI::createIndexBuffer(std::vector<uint16_t>& vertices)
+	Buffer<uint16_t>* VulkanRenderingAPI::createIndexBuffer(std::vector<uint16_t>& indices)
 	{
-		VulkanBuffer<uint16_t>* buffer = new VulkanBuffer<uint16_t>{ BufferTypes::Index, vertices, m_IndexBufferMemory };
+		VulkanBuffer<uint16_t>* buffer = new VulkanBuffer<uint16_t>{ BufferTypes::Index, indices.data(), indices.size(), m_IndexBufferMemory};
 
 		buffer->InitBuffer(m_Device);
 
