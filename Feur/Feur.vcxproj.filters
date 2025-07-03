@@ -25,6 +25,9 @@
     <Filter Include="GUFeur\Renderer\Vulkan">
       <UniqueIdentifier>{590CD080-4506-F9D2-2E73-8FE31A0C5F3F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUFeur\UIElement">
+      <UniqueIdentifier>{AAE6992A-96DF-B87C-BF11-9E01AB699888}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Feur.h" />
@@ -61,6 +64,9 @@
     <ClInclude Include="src\GUFeur\Core\RenderingAPI.h">
       <Filter>GUFeur\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\GUFeur\Renderer\Core\Model.h">
+      <Filter>GUFeur\Renderer\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\GUFeur\Renderer\Core\VertexBuffer.h">
       <Filter>GUFeur\Renderer\Core</Filter>
     </ClInclude>
@@ -84,6 +90,12 @@
     </ClInclude>
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.h">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\UIElement\UIElement.h">
+      <Filter>GUFeur\UIElement</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUFeur\UIElement\UIElementStyle.h">
+      <Filter>GUFeur\UIElement</Filter>
     </ClInclude>
     <ClInclude Include="src\fpch.h" />
   </ItemGroup>
@@ -147,6 +159,9 @@
     </ClCompile>
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.cpp">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\UIElement\UIElement.cpp">
+      <Filter>GUFeur\UIElement</Filter>
     </ClCompile>
     <ClCompile Include="src\fpch.cpp" />
   </ItemGroup>

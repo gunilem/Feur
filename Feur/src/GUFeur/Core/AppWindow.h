@@ -2,6 +2,7 @@
 
 #include "GUFeur/Core/Core.h"
 #include "RenderingAPI.h"
+#include "GUFeur/UIElement/UIElement.h"
 
 struct GLFWwindow;
 
@@ -24,9 +25,12 @@ namespace GUFeur {
 
 		virtual void init(RenderingAPI* renderingAPI);
 		virtual void cleanup();
+		virtual void start();
+		virtual void stop();
 
 		virtual bool windowShouldClose();
 		virtual void PoolEvents();
+		virtual void drawFrame();
 
 		virtual GLFWwindow* nativeWindow() { return m_NativeWindow; }
 		virtual void OnWindowResized(uint32_t windowWidth, uint32_t windowHeight);
@@ -41,5 +45,8 @@ namespace GUFeur {
 		AppWindowProperties m_windowProperties;
 
 		RenderingAPI* m_RenderingAPI = nullptr;
+
+		UIData m_UIData;
+		UIElement* m_RootUIElement;
 	};
 }

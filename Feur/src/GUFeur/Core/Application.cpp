@@ -42,6 +42,9 @@ namespace GUFeur {
 	}
 
 	void Application::mainLoop() {
+
+		m_AppWindow.start();
+
 		while (!m_AppWindow.windowShouldClose()) {
 			auto start = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now());
 			m_AppWindow.PoolEvents();
@@ -54,6 +57,10 @@ namespace GUFeur {
 	}
 
 	void Application::cleanup() {
+		m_RenderingAPI->wait();
+
+		m_AppWindow.stop();
+
 		m_RenderingAPI->cleanup();
 		delete m_RenderingAPI;
 		m_AppWindow.cleanup();
@@ -61,6 +68,8 @@ namespace GUFeur {
 
 	void Application::drawFrame()
 	{
-		m_RenderingAPI->drawFrame();
+		m_RenderingAPI->openRenderingProcess();
+		m_AppWindow.drawFrame();
+		m_RenderingAPI->closeRenderingProcess();
 	}
 }

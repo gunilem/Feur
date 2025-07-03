@@ -8,6 +8,7 @@
 
 #include "VulkanAllocator.h"
 
+#include "GUFeur/Renderer/Core/Model.h"
 
 
 
@@ -34,19 +35,11 @@ namespace GUFeur {
 		createDevice();
 		createSwapchain();
 		createCommandBuffers();
-
-		m_VertexBuffer = createVertexBuffer(m_Vertices);
-		m_IndexBuffer = createIndexBuffer(m_Indices);
 	}
 
 	void VulkanRenderingAPI::cleanup()
 	{
-		vkDeviceWaitIdle(m_Device.device());
-
-		cleanVertexBuffer(m_VertexBuffer);
 		m_VertexBufferMemory.FreeMemory();
-
-		cleanIndexBuffer(m_IndexBuffer);
 		m_IndexBufferMemory.FreeMemory();
 
 		cleanCommandBuffers();
@@ -54,33 +47,8 @@ namespace GUFeur {
 		cleanDevice();
 	}
 
-	void VulkanRenderingAPI::drawFrame()
+	void VulkanRenderingAPI::drawFrame(uint32_t imageIndex)
 	{
-		if (m_windowWidth <= 0 || m_windowHeight <= 0) return;
-
-		uint32_t imageIndex = 0;
-		VkResult result = m_Swapchain.acquireNextImage(&imageIndex);
-
-		m_Swapchain.updateUniformBuffer(imageIndex);
-
-		if (result == VK_ERROR_OUT_OF_DATE_KHR) {
-			recreateSwapchain();
-			return;
-		}
-		else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
-			throw std::runtime_error("échec de la présentation d'une image à la swap chain!");
-		}
-
-		recordCommandBuffers(imageIndex);
-
-		result = m_Swapchain.submitCommandBuffer(&m_CommandBuffers[imageIndex], &imageIndex);
-		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || m_WindowResized) {
-			m_WindowResized = false;
-			recreateSwapchain();
-		}
-		else if (result != VK_SUCCESS) {
-			throw std::runtime_error("échec de la présentation d'une image!");
-		}
 	}
 
 	void VulkanRenderingAPI::OnWindowResized(uint32_t windowWidth, uint32_t windowHeight)
@@ -140,47 +108,6 @@ namespace GUFeur {
 	}
 #pragma endregion
 
-	void VulkanRenderingAPI::recordCommandBuffers(uint32_t imageIndex)
-	{
-		vkResetCommandBuffer(m_CommandBuffers[imageIndex], NULL);
-		VkCommandBufferBeginInfo beginInfo{};
-		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-		beginInfo.flags = 0; // Optionnel
-		beginInfo.pInheritanceInfo = nullptr; // Optionel
-
-		if (vkBeginCommandBuffer(m_CommandBuffers[imageIndex], &beginInfo) != VK_SUCCESS) {
-			throw std::runtime_error("erreur au début de l'enregistrement d'un command buffer!");
-		}
-
-		VkRenderPassBeginInfo renderPassInfo{};
-		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-		renderPassInfo.renderPass = m_Swapchain.getRenderPass();
-		renderPassInfo.framebuffer = m_Swapchain.getFrameBuffer(imageIndex);
-
-		renderPassInfo.renderArea.offset = { 0, 0 };
-		renderPassInfo.renderArea.extent = m_Swapchain.getExtents();
-
-		VkClearValue clearColor = { {{0.0f, 0.0f, 0.0f, 1.0f}} };
-		renderPassInfo.clearValueCount = 1;
-		renderPassInfo.pClearValues = &clearColor;
-
-		vkCmdBeginRenderPass(m_CommandBuffers[imageIndex], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-
-		m_Swapchain.getGraphicPipeline()->bind(m_CommandBuffers[imageIndex]);
-
-		bindBuffer(m_VertexBuffer, m_CommandBuffers[imageIndex]);
-		bindBuffer(m_IndexBuffer, m_CommandBuffers[imageIndex]);
-
-		m_Swapchain.bindDescriptorSet(m_CommandBuffers[imageIndex], imageIndex);
-		vkCmdDrawIndexed(m_CommandBuffers[imageIndex], static_cast<uint32_t>(m_IndexBuffer->bufferDataCount()), 1, 0, 0, 0);
-
-		vkCmdEndRenderPass(m_CommandBuffers[imageIndex]);
-		if (vkEndCommandBuffer(m_CommandBuffers[imageIndex]) != VK_SUCCESS) {
-			throw std::runtime_error("échec de l'enregistrement d'un command buffer!");
-		}
-
-	}
-
 	void VulkanRenderingAPI::recreateSwapchain()
 	{
 		if (m_windowWidth <= 0 || m_windowHeight <= 0) return;
@@ -194,6 +121,81 @@ namespace GUFeur {
 		m_Swapchain.recreateSwapchain(m_windowWidth, m_windowHeight, m_Swapchain.getSwapchain());
 
 		createCommandBuffers();
+	}
+
+	void VulkanRenderingAPI::openRenderingProcess()
+	{
+		if (m_windowWidth <= 0 || m_windowHeight <= 0) return ;
+
+		VkResult result = m_Swapchain.acquireNextImage(&m_currentImageIndex);
+
+		m_Swapchain.updateUniformBuffer(m_currentImageIndex);
+
+		if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+			recreateSwapchain();
+			return;
+		}
+		else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+			throw std::runtime_error("échec de la présentation d'une image à la swap chain!");
+		}
+
+		vkResetCommandBuffer(m_CommandBuffers[m_currentImageIndex], NULL);
+		VkCommandBufferBeginInfo beginInfo{};
+		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		beginInfo.flags = 0; // Optionnel
+		beginInfo.pInheritanceInfo = nullptr; // Optionel
+
+		if (vkBeginCommandBuffer(m_CommandBuffers[m_currentImageIndex], &beginInfo) != VK_SUCCESS) {
+			throw std::runtime_error("erreur au début de l'enregistrement d'un command buffer!");
+		}
+
+		VkRenderPassBeginInfo renderPassInfo{};
+		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		renderPassInfo.renderPass = m_Swapchain.getRenderPass();
+		renderPassInfo.framebuffer = m_Swapchain.getFrameBuffer(m_currentImageIndex);
+
+		renderPassInfo.renderArea.offset = { 0, 0 };
+		renderPassInfo.renderArea.extent = m_Swapchain.getExtents();
+
+		VkClearValue clearColor = { {{0.0f, 0.0f, 0.0f, 1.0f}} };
+		renderPassInfo.clearValueCount = 1;
+		renderPassInfo.pClearValues = &clearColor;
+
+		vkCmdBeginRenderPass(m_CommandBuffers[m_currentImageIndex], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+		m_Swapchain.getGraphicPipeline()->bind(m_CommandBuffers[m_currentImageIndex]);
+
+		m_Swapchain.bindDescriptorSet(m_CommandBuffers[m_currentImageIndex], m_currentImageIndex);
+	}
+
+	void VulkanRenderingAPI::closeRenderingProcess()
+	{
+		vkCmdEndRenderPass(m_CommandBuffers[m_currentImageIndex]);
+		if (vkEndCommandBuffer(m_CommandBuffers[m_currentImageIndex]) != VK_SUCCESS) {
+			throw std::runtime_error("échec de l'enregistrement d'un command buffer!");
+		}
+
+		VkResult result = m_Swapchain.submitCommandBuffer(&m_CommandBuffers[m_currentImageIndex], &m_currentImageIndex);
+		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || m_WindowResized) {
+			m_WindowResized = false;
+			recreateSwapchain();
+		}
+		else if (result != VK_SUCCESS) {
+			throw std::runtime_error("échec de la présentation d'une image!");
+		}
+	}
+
+	void VulkanRenderingAPI::drawModel(Model& model)
+	{
+		bindBuffer(model.VertexBuffer, m_CommandBuffers[m_currentImageIndex]);
+		bindBuffer(model.IndexBuffer, m_CommandBuffers[m_currentImageIndex]);
+
+		vkCmdDrawIndexed(m_CommandBuffers[m_currentImageIndex], static_cast<uint32_t>(model.IndexBuffer->bufferDataCount()), 1, 0, 0, 0);
+	}
+
+	void VulkanRenderingAPI::wait()
+	{
+		vkDeviceWaitIdle(m_Device.device());
 	}
 
 	Buffer<Vertex>* VulkanRenderingAPI::createVertexBuffer(std::vector<Vertex>& vertices)
@@ -226,6 +228,12 @@ namespace GUFeur {
 		VulkanBuffer<uint16_t>* b = dynamic_cast<VulkanBuffer<uint16_t>*>(buffer);
 		b->cleanBuffer(m_Device);
 		delete b;
+	}
+
+	void VulkanRenderingAPI::updateVertexBufferData(Buffer<Vertex>* buffer)
+	{
+		VulkanBuffer<Vertex>* b = dynamic_cast<VulkanBuffer<Vertex>*>(buffer);
+		b->updateData(m_Device);
 	}
 
 	template<typename T>

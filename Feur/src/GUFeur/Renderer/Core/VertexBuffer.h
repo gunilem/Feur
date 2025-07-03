@@ -2,6 +2,7 @@
 
 #include "glm/glm.hpp"
 
+#include "GUFeur/UIElement/UIElementStyle.h"
 
 namespace GUFeur {
 	enum class BufferTypes {
@@ -13,7 +14,7 @@ namespace GUFeur {
 
 	struct Vertex {
 		glm::vec2 Position;
-		glm::vec3 Color;
+		Color3 Color;
 	};
 
 	template<typename T>

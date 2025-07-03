@@ -21,12 +21,18 @@ namespace GUFeur {
 		virtual void init(uint32_t windowWidth, uint32_t windowHeight) override;
 		virtual void cleanup() override;
 
-		virtual void drawFrame() override;
+		virtual void drawFrame(uint32_t imageIndex) override;
 
 		virtual void OnWindowResized(uint32_t windowWidth, uint32_t windowHeight) override;
 
+		virtual void openRenderingProcess() override;
+		virtual void closeRenderingProcess() override;
+
+		virtual void drawModel(Model& model) override;
+
+		virtual void wait() override;
+
 	private:
-		void recordCommandBuffers(uint32_t imageIndex);
 		void recreateSwapchain();
 
 		virtual Buffer<Vertex>* createVertexBuffer(std::vector<Vertex>& vertices) override;
@@ -34,6 +40,8 @@ namespace GUFeur {
 
 		virtual void cleanVertexBuffer(Buffer<Vertex>* buffer) override;
 		virtual void cleanIndexBuffer(Buffer<uint16_t>* buffer) override;
+
+		virtual void updateVertexBufferData(Buffer<Vertex>* buffer) override;
 
 		template<typename T>
 		void bindBuffer(Buffer<T>* buffer, VkCommandBuffer& commandBuffer);
@@ -60,23 +68,10 @@ namespace GUFeur {
 		uint32_t m_windowWidth, m_windowHeight;
 		bool m_WindowResized;
 
-		Buffer<Vertex>* m_VertexBuffer;
-		Buffer<uint16_t>* m_IndexBuffer;
-
-		std::vector < Vertex > m_Vertices = {
-			{{0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}},
-			{{800.f, 0.0f}, {0.0f, 1.0f, 0.0f}},
-			{{800.f, 1000.0f}, {0.0f, 0.0f, 1.0f}},
-			{{0.0f, 1000.0f}, {1.0f, 1.0f, 1.0f}}
-		};
-
-		std::vector<uint16_t> m_Indices = {
-			0, 1, 2, 2, 3, 0
-		};
-
-
 		VulkanMemoryAllocator m_VertexBufferMemory;
 		VulkanMemoryAllocator m_IndexBufferMemory;
+
+		uint32_t m_currentImageIndex;
 	};
 }
 

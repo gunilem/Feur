@@ -46,6 +46,7 @@ namespace GUFeur {
 		virtual void cleanBuffer(Device& device);
 		virtual void bindBuffer(VkCommandBuffer& commandBuffer);
 
+		virtual void updateData(Device& device);
 		virtual void MoveData(Device& device, T* dataptr, size_t count);
 
 		virtual VkBuffer getBuffer();
@@ -171,6 +172,12 @@ namespace GUFeur {
 			}
 		}
 
+	}
+
+	template<typename T>
+	inline void VulkanBuffer<T>::updateData(Device& device)
+	{
+		MoveData(device, bufferData(), bufferDataCount());
 	}
 
 	template<typename T>

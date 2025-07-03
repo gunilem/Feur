@@ -147,17 +147,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Feur.h" />
-    <ClInclude Include="src\Feur\Core\Application.h" />
-    <ClInclude Include="src\Feur\Core\Device.h" />
-    <ClInclude Include="src\Feur\Core\Model.h" />
-    <ClInclude Include="src\Feur\Core\Pipeline.h" />
-    <ClInclude Include="src\Feur\Core\Swap_chain.h" />
-    <ClInclude Include="src\Feur\Core\Window.h" />
-    <ClInclude Include="src\Feur\UI\Widget.h" />
     <ClInclude Include="src\GUFeur\Core\AppWindow.h" />
     <ClInclude Include="src\GUFeur\Core\Application.h" />
     <ClInclude Include="src\GUFeur\Core\Core.h" />
     <ClInclude Include="src\GUFeur\Core\RenderingAPI.h" />
+    <ClInclude Include="src\GUFeur\Renderer\Core\Model.h" />
     <ClInclude Include="src\GUFeur\Renderer\Core\VertexBuffer.h" />
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\Device.h" />
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\GraphicPipeline.h" />
@@ -166,17 +160,11 @@
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanMemoryAllocator.h" />
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.h" />
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.h" />
+    <ClInclude Include="src\GUFeur\UIElement\UIElement.h" />
+    <ClInclude Include="src\GUFeur\UIElement\UIElementStyle.h" />
     <ClInclude Include="src\fpch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Feur\Core\Application.cpp" />
-    <ClCompile Include="src\Feur\Core\Device.cpp" />
-    <ClCompile Include="src\Feur\Core\Model.cpp" />
-    <ClCompile Include="src\Feur\Core\Pipeline.cpp" />
-    <ClCompile Include="src\Feur\Core\Swap_chain.cpp" />
-    <ClCompile Include="src\Feur\Core\Window.cpp" />
-    <ClCompile Include="src\Feur\EntryPoint.cpp" />
-    <ClCompile Include="src\Feur\UI\Widget.cpp" />
     <ClCompile Include="src\GUFeur\Core\AppWindow.cpp" />
     <ClCompile Include="src\GUFeur\Core\Application.cpp">
       <ObjectFileName>$(IntDir)\Application1.obj</ObjectFileName>
@@ -195,6 +183,7 @@
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanMemoryAllocator.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.cpp" />
+    <ClCompile Include="src\GUFeur\UIElement\UIElement.cpp" />
     <ClCompile Include="src\fpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
