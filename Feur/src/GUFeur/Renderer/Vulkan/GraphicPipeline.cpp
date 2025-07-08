@@ -60,13 +60,13 @@ namespace GUFeur {
 		configInfo.MultisampleInfo.alphaToOneEnable = VK_FALSE; // Optionnel
 
 		configInfo.ColorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-		configInfo.ColorBlendAttachment.blendEnable = VK_FALSE;
-		configInfo.ColorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE; // Optionnel
-		configInfo.ColorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO; // Optionnel
+		configInfo.ColorBlendAttachment.blendEnable = VK_TRUE;
+		configInfo.ColorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA; // Optionnel
+		configInfo.ColorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA; // Optionnel
 		configInfo.ColorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD; // Optionnel
-		configInfo.ColorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE; // Optionnel
-		configInfo.ColorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO; // Optionnel
-		configInfo.ColorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD; // Optionnel
+		configInfo.ColorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA; // Optionnel
+		configInfo.ColorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA; // Optionnel
+		configInfo.ColorBlendAttachment.alphaBlendOp = VK_BLEND_OP_SUBTRACT; // Optionnel
 
 		configInfo.ColorBlendInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		configInfo.ColorBlendInfo.logicOpEnable = VK_FALSE;

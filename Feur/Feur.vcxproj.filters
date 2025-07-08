@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Feur">
-      <UniqueIdentifier>{372F857C-2366-860D-CC52-6C10B868020F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Feur\Core">
-      <UniqueIdentifier>{EF6DDF3D-5BD8-93B4-A416-455A10C07109}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Feur\UI">
-      <UniqueIdentifier>{04CB4904-70AA-C89F-79C2-5376E5202F01}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GUFeur">
       <UniqueIdentifier>{F38BA7B3-DF2D-D289-C8E8-E5DDB42959DA}</UniqueIdentifier>
     </Filter>
@@ -28,30 +19,12 @@
     <Filter Include="GUFeur\UIElement">
       <UniqueIdentifier>{AAE6992A-96DF-B87C-BF11-9E01AB699888}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUFeur\UIElement\Types">
+      <UniqueIdentifier>{CE81F15D-BA7B-1AB0-A3E8-B0C08F81801C}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Feur.h" />
-    <ClInclude Include="src\Feur\Core\Application.h">
-      <Filter>Feur\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Core\Device.h">
-      <Filter>Feur\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Core\Model.h">
-      <Filter>Feur\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Core\Pipeline.h">
-      <Filter>Feur\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Core\Swap_chain.h">
-      <Filter>Feur\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\Core\Window.h">
-      <Filter>Feur\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Feur\UI\Widget.h">
-      <Filter>Feur\UI</Filter>
-    </ClInclude>
     <ClInclude Include="src\GUFeur\Core\AppWindow.h">
       <Filter>GUFeur\Core</Filter>
     </ClInclude>
@@ -91,6 +64,9 @@
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.h">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
     </ClInclude>
+    <ClInclude Include="src\GUFeur\UIElement\Types\TabLayout.h">
+      <Filter>GUFeur\UIElement\Types</Filter>
+    </ClInclude>
     <ClInclude Include="src\GUFeur\UIElement\UIElement.h">
       <Filter>GUFeur\UIElement</Filter>
     </ClInclude>
@@ -100,30 +76,6 @@
     <ClInclude Include="src\fpch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Feur\Core\Application.cpp">
-      <Filter>Feur\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Core\Device.cpp">
-      <Filter>Feur\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Core\Model.cpp">
-      <Filter>Feur\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Core\Pipeline.cpp">
-      <Filter>Feur\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Core\Swap_chain.cpp">
-      <Filter>Feur\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\Core\Window.cpp">
-      <Filter>Feur\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\EntryPoint.cpp">
-      <Filter>Feur</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Feur\UI\Widget.cpp">
-      <Filter>Feur\UI</Filter>
-    </ClCompile>
     <ClCompile Include="src\GUFeur\Core\AppWindow.cpp">
       <Filter>GUFeur\Core</Filter>
     </ClCompile>
@@ -159,6 +111,9 @@
     </ClCompile>
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.cpp">
       <Filter>GUFeur\Renderer\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUFeur\UIElement\Types\TabLayout.cpp">
+      <Filter>GUFeur\UIElement\Types</Filter>
     </ClCompile>
     <ClCompile Include="src\GUFeur\UIElement\UIElement.cpp">
       <Filter>GUFeur\UIElement</Filter>

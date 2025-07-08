@@ -160,29 +160,25 @@
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanMemoryAllocator.h" />
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.h" />
     <ClInclude Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.h" />
+    <ClInclude Include="src\GUFeur\UIElement\Types\TabLayout.h" />
     <ClInclude Include="src\GUFeur\UIElement\UIElement.h" />
     <ClInclude Include="src\GUFeur\UIElement\UIElementStyle.h" />
     <ClInclude Include="src\fpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GUFeur\Core\AppWindow.cpp" />
-    <ClCompile Include="src\GUFeur\Core\Application.cpp">
-      <ObjectFileName>$(IntDir)\Application1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="src\GUFeur\Core\Application.cpp" />
     <ClCompile Include="src\GUFeur\Core\RenderingAPI.cpp" />
-    <ClCompile Include="src\GUFeur\EntryPoint.cpp">
-      <ObjectFileName>$(IntDir)\EntryPoint1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="src\GUFeur\EntryPoint.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Core\VertexBuffer.cpp" />
-    <ClCompile Include="src\GUFeur\Renderer\Vulkan\Device.cpp">
-      <ObjectFileName>$(IntDir)\Device1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="src\GUFeur\Renderer\Vulkan\Device.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\GraphicPipeline.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\Swapchain.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanAllocator.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanMemoryAllocator.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanRenderingAPI.cpp" />
     <ClCompile Include="src\GUFeur\Renderer\Vulkan\VulkanVertexBuffer.cpp" />
+    <ClCompile Include="src\GUFeur\UIElement\Types\TabLayout.cpp" />
     <ClCompile Include="src\GUFeur\UIElement\UIElement.cpp" />
     <ClCompile Include="src\fpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

@@ -2,7 +2,7 @@
 
 #include "GUFeur/Core/Core.h"
 #include "RenderingAPI.h"
-#include "GUFeur/UIElement/UIElement.h"
+#include "GUFeur/UIElement/Types/TabLayout.h"
 
 struct GLFWwindow;
 

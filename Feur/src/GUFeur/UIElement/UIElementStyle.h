@@ -5,8 +5,9 @@ namespace GUFeur {
 
 	enum StyleFloatType {
 		None = 0,
-		Percentage = 1,
-		Pixel = 2
+		Percentage100 = 1,
+		Percentage1 = 2,
+		Pixel = 3
 	};
 
 	struct StyleFloat {
@@ -14,23 +15,35 @@ namespace GUFeur {
 		float Value = 0;
 
 
-		StyleFloat& operator=(int value) {
-			Type = StyleFloatType::Pixel;
-			Value = value;
-			return *this;
+		StyleFloat()
+			: Type{ StyleFloatType::Percentage1 }, Value{ 1.0f } {
+		}
+
+		StyleFloat(float value, StyleFloatType type)
+			: Type{ type }, Value{value} { }
+
+
+		StyleFloat(StyleFloatType type)
+			: Type{ type } {
 		}
 
 
-		StyleFloat& operator=(std::string value) {
-			if (value[value.size() - 1] != '%') return *this;
-
-			Type = StyleFloatType::Percentage;
-			for (int i = 0, y = value.size() - 2; i < value.size() - 2; i++, y--) {
-				Value += value[i] * y;
+		float getValue(float parentProperty) {
+			switch (Type) {
+			case StyleFloatType::Percentage100:
+				return parentProperty * (Value / 100);
+				break;
+			case StyleFloatType::Percentage1:
+				return parentProperty * Value;
+				break;
+			case StyleFloatType::Pixel:
+				return Value;
+				break;
+			case StyleFloatType::None:
+				return 0;
+				break;
 			}
-
-			std::cout << Value;
-			return *this;
+			return 0;
 		}
 	};
 
@@ -50,7 +63,14 @@ namespace GUFeur {
 
 
 	struct UIElementStyle {
+
+		UIElementStyle() 
+		: MarginLeft(None), MarginRight(None), MarginTop(None), MarginBottom(None) {
+
+		}
+
 		StyleFloat Width, Height;
+		StyleFloat MarginLeft, MarginRight, MarginTop, MarginBottom;
 		Color3 BackgroundColor;
 	};
 

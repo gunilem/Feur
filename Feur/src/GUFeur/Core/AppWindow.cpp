@@ -15,18 +15,18 @@ namespace GUFeur {
 	}
 
 	AppWindow::AppWindow(uint32_t width, uint32_t height, const char* name)
-		: m_UIData(width, height)
+		: m_UIData(width, height, 0.0f, 0.0f)
 	{
 		m_windowProperties = AppWindowProperties();
 		m_windowProperties.Width = width;
 		m_windowProperties.Height = height;
 		m_windowProperties.Name = name;
 
-		m_RootUIElement = new UIElement{ m_UIData };
+		m_RootUIElement = new TabLayout{ };
 	}
 
 	AppWindow::AppWindow(AppWindowProperties& properties)
-		: m_NativeWindow(nullptr), m_UIData(properties.Width, properties.Height)
+		: m_NativeWindow(nullptr), m_UIData(properties.Width, properties.Height, 0.0f, 0.0f)
 	{
 		m_windowProperties = properties;
 	}
@@ -54,7 +54,7 @@ namespace GUFeur {
 
 	void AppWindow::start()
 	{
-		m_RootUIElement->update(m_RenderingAPI);
+		m_RootUIElement->update(m_RenderingAPI, m_UIData);
 	}
 
 	void AppWindow::stop()
@@ -87,7 +87,7 @@ namespace GUFeur {
 		m_UIData.Height = windowHeight;
 		m_RenderingAPI->OnWindowResized(windowWidth, windowHeight);
 
-		m_RootUIElement->update(m_RenderingAPI);
+		m_RootUIElement->update(m_RenderingAPI, m_UIData);
 	}
 
 	void AppWindow::initVulkan()
